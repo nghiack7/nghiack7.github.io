@@ -336,20 +336,7 @@
 
     <script>
         document.getElementById('download-pdf').addEventListener('click', function() {
-            // Get the content to convert
-            const content = document.body;
-            
-            // Configure the PDF options
-            const options = {
-                margin: 10,
-                filename: 'NghiaNguyen-Resume.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            // Generate and download PDF
-            html2pdf().from(content).set(options).save();
+            window.location.href = 'assets/pdf/NghiaNguyen-Resume.pdf';
         });
     </script>
 </body>
