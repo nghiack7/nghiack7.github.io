@@ -111,9 +111,11 @@ body {
 
 /* Skills Grid */
 .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    display: flex;
+    /* Change to flex to align items in a row */
+    flex-wrap: nowrap;
+    /* Prevent wrapping to a new line */
+    overflow-x: auto;
 }
 
 .skill-category {
