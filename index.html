@@ -331,22 +331,25 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/dark-mode.js"></script>
 
-    <!-- Add jsPDF Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- Add html2pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-   
-
-    <!-- Add JavaScript for PDF Generation -->
     <script>
         document.getElementById('download-pdf').addEventListener('click', function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            // Get the content to convert
+            const content = document.body;
             
-            // Add content to PDF
-            doc.text(document.body.innerText, 10, 10);
+            // Configure the PDF options
+            const options = {
+                margin: 10,
+                filename: 'NghiaNguyen-Resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
             
-            // Save the PDF
-            doc.save('resume.pdf');
+            // Generate and download PDF
+            html2pdf().from(content).set(options).save();
         });
     </script>
 </body>
