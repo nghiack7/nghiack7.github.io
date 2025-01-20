@@ -1,27 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Display PDF</title>
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Hide scrollbars */
-        }
-
-        embed {
-            width: 100%;
-            height: 100vh; /* Full viewport height */
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghia Nguyen - Senior Backend Developer</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Senior Backend Developer specializing in Golang, Microservices, and Cloud Technologies">
+    <meta name="keywords" content="backend developer, golang, microservices, cloud, developer">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <embed src="NghiaNguyen-CV-Latest.pdf" type="application/pdf" />
-</body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>Nghia Nguyen</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                    <button id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="assets/pdf/resume.pdf" class="download-btn" download>
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Senior Backend Developer</h1>
+                <p>Specializing in scalable systems and microservices architecture</p>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/nghia-nguyen-ba2b4823" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/your-username" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:upcontra1993@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>Senior Backend Developer with 5+ years of experience in building scalable, efficient systems using Go/Golang. 
+                Specialized in RESTful APIs, microservices architecture, and concurrent programming. Strong track record in leading 
+                development teams and delivering high-performance solutions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <ul>
+                        <li>Golang</li>
+                        <li>Python</li>
+                        <li>NodeJS</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Databases</h3>
+                    <ul>
+                        <li>MySQL</li>
+                        <li>PostgreSQL</li>
+                        <li>MongoDB</li>
+                        <li>SQLite</li>
+                        <li>Redis</li>
+                        <li>DynamoDB</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Technologies</h3>
+                    <ul>
+                        <li>Docker</li>
+                        <li>Kubernetes</li>
+                        <li>AWS</li>
+                        <li>Nginx</li>
+                        <li>Git</li>
+                        <li>CI/CD</li>
+                        <li>Kafka</li>
+                        <li>RabbitMQ</li>
+                        <li>ELK Stack</li>
+                        <li>Prometheus</li>
+                        <li>Grafana</li>
+                        <li>Kibana</li>
+                        <li>Elasticsearch</li>
+                        <li>Logstash</li>
+                        <li>Jenkins</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Tools</h3>
+                    <ul>
+                        <li>VSCode</li>
+                        <li>IntelliJ IDEA</li>
+                        <li>Postman</li>
+                        <li>Swagger</li>
+                        <li>Jira</li>
+                        <li>Confluence</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Soft Skills</h3>
+                    <ul>
+                        <li>Problem Solving</li>
+                        <li>Teamwork</li>
+                        <li>Communication</li>
+                        <li>Adaptability</li>
+                        <li>Leadership</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2>Work Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">11/2022 - Present</div>
+                    <div class="timeline-content">
+                        <h3>Senior Golang Developer</h3>
+                        <h4>ECQ Vietnam | Ho Chi Minh City</h4>
+                        <ul>
+                            <li>Lead the development and maintenance of services using Golang for various projects.</li>
+                            <li>Responsible for performance optimization and ensuring efficient query processing.</li>
+                            <li>Collaborate with the Product Manager and Technical Leader to oversee project requirements.</li>
+                            <li>Identify and address persistent issues regarding technology stack and database architecture.</li>
+                            <li>Implemented CI/CD pipelines to streamline deployment processes.</li>
+                            <li>Mentored junior developers, enhancing team productivity and skill levels.</li>
+                        </ul>
+                        <h5>Achievements:</h5>
+                        <ul>
+                            <li>- Successfully developed and optimized services to ensure maximum performance and efficient query processing.</li>
+                            <li>- Met project deadlines and requirements by delivering services that met or exceeded expectations.</li>
+                            <li>- Recognized and praised for exceptional work performance by both Lead Tech and Product Manager.</li>
+                            <li>- Played a key role in decision-making processes regarding the selection of technology stacks and databases, contributing to the overall success of projects.</li>
+                            <li>- Identified and addressed persistent issues within projects, contributing to improved project stability and performance.</li>
+                        </ul>
+                        <h5>Responsibilities:</h5>
+                        <ul>
+                            <li>- Conducted regular code reviews and maintained documentation standards.</li>
+                            <li>- As a Senior Golang Developer at ECQ Viet Nam, I lead the development and maintenance of Golang services for cybersecurity solutions. With a focus on performance and efficiency, I make strategic decisions regarding technology and database architecture while overseeing our team's operations to ensure seamless functionality.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">04/2022 - 11/2022</div>
+                    <div class="timeline-content">
+                        <h3>Senior Golang Developer</h3>
+                        <h4>Sendo | Ho Chi Minh City</h4>
+                        <ul>
+                            <li>Worked within the Customer Squad to enhance e-commerce platform services.</li>
+                            <li>Implemented new features and optimized existing services for better performance.</li>
+                            <li>Conducted code reviews and provided technical guidance to team members.</li>
+                        </ul>
+                        <h5>Achievements:</h5>
+                        <ul>
+                            <li>- Achieved a 30% reduction in response time through code optimization.</li>
+                            <li>- Successfully launched three major features that increased user engagement.</li>
+                        </ul>
+                        <h5>Responsibilities:</h5>
+                        <ul>
+                            <li>- Implemented performance optimizations for critical services.</li>
+                            <li>- Developed new features to enhance user experience.</li>
+                            <li>- Conducted code reviews and provided technical guidance.</li>
+                            <li>- Identified and resolved performance bottlenecks.</li>
+                            <li>- Contributed to architectural discussions and technology selection.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">11/2021 - 4/2022</div>
+                    <div class="timeline-content">
+                        <h3>Team Leader | Full Stack Developer</h3>
+                        <h4>Hitachi Vantara Vietnam | Ho Chi Minh City</h4>
+                        <ul>
+                            <li>Oversaw a team of 6 members, including backend and frontend developers.</li>
+                            <li>Responsible for implementing key features of the project, including workflow and scheduling.</li>
+                            <li>Supported and guided frontend team members in their development tasks.</li>
+                        </ul>
+                        <h5>Achievements:</h5>
+                        <ul>
+                            <li>- Led the team to achieve a 95% project delivery success rate.</li>
+                            <li>- Successfully delivered multiple projects on time and within budget.</li>
+                            <li>- Enhanced team collaboration through regular stand-ups and retrospectives.</li>
+                            <li>- Mentored junior developers, enhancing team productivity and skill levels.</li>
+                        </ul>
+                        <h5>Responsibilities:</h5>
+                        <ul>
+                            <li>- Backend development core future: workflow, schedule, article.</li>
+                            <li>- Leader and support team, which have 6 members.</li>
+                            <li>- Report directlyto SA and PM of project.</li>
+                            <li>- Support overall project.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">4/2021 - 8/2021</div>
+                <div class="timeline-content">
+                    <h3>Freelance Developer</h3>
+                    <h4>Freelance | Ho Chi Minh City</h4>
+                    <ul>
+                        <li>Worked on various projects, including web applications and backend services.</li>
+                        <li>Utilized Golang, Python, and other technologies to deliver high-quality solutions.</li>
+                        <li>Collaborated with clients to understand project requirements and deliver tailored solutions.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">6/2020 - 4/2021</div>
+                <div class="timeline-content">
+                    <h3>Backend Developer</h3>
+                    <h4>Amaris | Ho Chi Minh City</h4>
+                    <ul>
+                        <li>Developed and maintained backend services using Golang.</li>
+                        <li>Implemented RESTful APIs and microservices architecture.</li>
+                        <li>Collaborated with frontend developers to ensure seamless integration.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">6/2019 - 3/2020</div>
+                <div class="timeline-content">
+                    <h3>Fresher Developer</h3>
+                    <h4>TMA Solutions | Ho Chi Minh City</h4>
+                    <ul>
+                        <li>Developed function for the project using Golang, Python.</li>
+                        <li>Support the project, which is a web application for the management of the company's employees.</li>
+                        <li> write automation script for the project using Python, and Spring Boot.</li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-content">
+                <div class="education-item">
+                    <h3>Programme de Formation d'Ingénieurs d'Excellence au Vietnam (PFIEV)</h3>
+                    <h4>Ho Chi Minh City University of Technology (HCMUT)</h4>
+                    <p class="degree"><a href="http://pfiev.hcmut.edu.vn/pfiev/index.php?tin=57">Equivalent Master of Engineering</a></p>
+                    <p class="major">Mechanical Engineering (Aerospace Engineering)</p>
+                    <p class="duration">2012 - 2020</p>
+                </div>
+                <div class="education-item">
+                    <h3>Quang Trung Specialized High School</h3>
+                    <h4>Binh Phuoc Province</h4>
+                    <p class="duration">2008 - 2012</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:ngocnghia128@gmail.com">ngocnghia128@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+84794788363">+84794788363</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ho Chi Minh City, Vietnam</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Nghia Nguyen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
+</body>
 </html>
