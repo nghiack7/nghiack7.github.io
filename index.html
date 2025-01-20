@@ -39,9 +39,9 @@
                     <button id="theme-toggle" aria-label="Toggle dark mode">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <a href="assets/pdf/resume.pdf" class="download-btn" download>
-                        <i class="fas fa-download"></i> Download CV
-                    </a>
+                    <button id="download-pdf" aria-label="Download PDF">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
                 </div>
             </div>
         </nav>
@@ -330,5 +330,24 @@
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/dark-mode.js"></script>
+
+    <!-- Add jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+   
+
+    <!-- Add JavaScript for PDF Generation -->
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add content to PDF
+            doc.text(document.body.innerText, 10, 10);
+            
+            // Save the PDF
+            doc.save('resume.pdf');
+        });
+    </script>
 </body>
 </html>
