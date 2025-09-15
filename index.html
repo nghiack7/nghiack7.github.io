@@ -9,6 +9,1305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghia Nguyen - Senior Backend Developer</title>
+    <meta name="description" content="Senior Backend Developer specializing in Golang, Python, and microservices architecture">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #0f172a;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 1.875rem;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .hero-avatar i {
+            font-size: 8rem;
+            color: white;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-alt {
+            background-color: var(--bg-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .skill-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 3rem;
+            margin-left: 4rem;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -4.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        .experience-card {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-title {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .experience-company {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .experience-period {
+            background: var(--bg-tertiary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .experience-description {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .achievement-list {
+            list-style: none;
+        }
+
+        .achievement-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .achievement-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-item {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .education-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .education-degree {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-school {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-period {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            width: 3rem;
+            height: 3rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .contact-details h4 {
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .contact-details p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .contact-details a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cover Letter Generator */
+        .cover-letter-form {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-control textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer p {
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow-md);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-avatar {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-avatar i {
+                font-size: 5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-timeline::before {
+                left: 1rem;
+            }
+
+            .experience-item {
+                margin-left: 2rem;
+            }
+
+            .experience-item::before {
+                left: -2.5rem;
+            }
+
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+
+        .message.success {
+            background-color: #f0fdf4;
+            border-color: var(--success-color);
+            color: #166534;
+        }
+
+        .message.error {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">Nghia Nguyen</a>a>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a>a></li>
+                <li><a href="#about">About</a>a></li>
+                <li><a href="#experience">Experience</a>a></li>
+                <li><a href="#skills">Skills</a>a></li>
+                <li><a href="#education">Education</a>a></li>
+                <li><a href="#contact">Contact</a>a></li>
+            </ul>ul>
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>i>
+            </button>button>
+        </nav>nav>
+    </header>header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content" data-aos="fade-right">
+                <h1>Nghia Nguyen</h1>
+                <p class="hero-subtitle">Senior Backend Developer</p>p>
+                <p class="hero-description">
+                    Passionate about building scalable, efficient, and maintainable backend systems using Go. 
+                    Experienced in RESTful APIs, microservices architecture, and concurrent programming with 
+                    a strong focus on performance optimization and clean code practices.
+                </p>p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i>i>
+                        Get In Touch
+                    </a>a>
+                    <button onclick="downloadCV()" class="btn btn-secondary">
+                        <i class="fas fa-download"></i>i>
+                        Download CV
+                    </button>button>
+                </div>div>
+            </div>div>
+            <div class="hero-image" data-aos="fade-left">
+                <div class="hero-avatar">
+                    <i class="fas fa-user"></i>i>
+                </div>div>
+            </div>div>
+        </div>div>
+    </section>section>
+
+    <!-- About Section -->
+    <section id="about" class="section section-alt">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">About Me</h2>
+                <p>Learn more about my background and expertise</p>
+            </div>div>
+            <div class="contact-grid">
+                <div data-aos="fade-right">
+                    <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary);">
+                        As a Senior Backend Developer, I excel in building scalable, efficient, and maintainable backend systems using Go. 
+                        I'm skilled in designing and implementing RESTful APIs, microservices architecture, and concurrent programming. 
+                        With a strong understanding of software development best practices, including testing, code review, and documentation, 
+                        I collaborate effectively with cross-functional teams to deliver projects on time and within budget.
+                    </p>
+                    <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary);">
+                        Passionate about learning new technologies and continuously improving development processes, 
+                        I'm ready to leverage my expertise to contribute effectively to your team.
+                    </p>
+                </div>div>
+                <div class="contact-info" data-aos="fade-left">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>i>
+                        </div>div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Ho Chi Minh City, Vietnam</p>
+                        </div>div>
+                    </div>div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-trophy"></i>i>
+                        </div>div>
+                        <div class="contact-details">
+                            <h4>Awards</h4>
+                            <p>Best Performance - Hitachi Vantara VN (2021)</p>
+                        </div>div>
+                    </div>div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-code"></i>i>
+                        </div>div>
+                        <div class="contact-details">
+                            <h4>Specialization</h4>
+                            <p>Backend Development, Microservices, API Design</p>
+                        </div>div>
+                    </div>div>
+                </div>div>
+            </div>div>
+        </div>div>
+    </section>section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Skills & Technologies</h2>
+                <p>Technical expertise and core competencies</p>
+            </div>div>
+            <div class="skills-grid">
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                    <h3><i class="fas fa-code"></i>i> Programming Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Golang</span>span>
+                        <span class="skill-tag">Python</span>span>
+                        <span class="skill-tag">Node.js</span>span>
+                    </div>div>
+                </div>div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                    <h3><i class="fas fa-database"></i>i> Databases</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MySQL</span>span>
+                        <span class="skill-tag">PostgreSQL</span>span>
+                        <span class="skill-tag">SQLite</span>span>
+                        <span class="skill-tag">MongoDB</span>span>
+                    </div>div>
+                </div>div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="300">
+                    <h3><i class="fas fa-share-alt"></i>i> Message Queue</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Kafka</span>span>
+                        <span class="skill-tag">RabbitMQ</span>span>
+                        <span class="skill-tag">Redis</span>span>
+                    </div>div>
+                </div>div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="400">
+                    <h3><i class="fas fa-cloud"></i>i> DevOps & Cloud</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>span>
+                        <span class="skill-tag">AWS</span>span>
+                        <span class="skill-tag">Kubernetes</span>span>
+                        <span class="skill-tag">CI/CD</span>span>
+                        <span class="skill-tag">Nginx</span>span>
+                        <span class="skill-tag">Git</span>span>
+                    </div>div>
+                </div>div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="500">
+                    <h3><i class="fas fa-users"></i>i> Soft Skills</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Problem-Solving</span>span>
+                        <span class="skill-tag">Communication</span>span>
+                        <span class="skill-tag">Leadership</span>span>
+                        <span class="skill-tag">Time Management</span>span>
+                    </div>div>
+                </div>div>
+            </div>div>
+        </div>div>
+    </section>section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section section-alt">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Work Experience</h2>
+                <p>Professional journey and key achievements</p>
+            </div>div>
+            <div class="experience-timeline">
+                <!-- Source Of Asia -->
+                <div class="experience-item" data-aos="fade-up">
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <div>
+                                <div class="experience-title">Senior Golang Developer</div>
+                                <div class="experience-company">Source Of Asia</div>
+                            </div>
+                            <span class="experience-period">8/2024 – Present</span>span>
+                        </div>
+                        <p class="experience-description">
+                            Specializing in designing and implementing backend solutions for Trasset, an advanced asset management application.
+                        </p>p>
+                        <ul class="achievement-list">
+                            <li>Optimized and scaled backend services, handling large asset datasets efficiently</li>
+                            <li>Designed a robust authentication & authorization system, improving security and access control</li>
+                            <li>Enhanced PostgreSQL query performance, reducing response times by 40%</li>
+                            <li>Streamlined CI/CD workflows, reducing deployment time and improving release cycles</li>
+                        </ul>ul>
+                    </div>
+                </div>
+
+                <!-- ECQ Vietnam -->
+                <div class="experience-item" data-aos="fade-up">
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <div>
+                                <div class="experience-title">Senior Golang Developer</div>
+                                <div class="experience-company">ECQ Vietnam</div>
+                            </div>
+                            <span class="experience-period">11/2022 – 7/2024</span>span>
+                        </div>
+                        <p class="experience-description">
+                            Leading technology company specializing in cybersecurity solutions with operations across Vietnam, Thailand, and Singapore.
+                        </p>p>
+                        <ul class="achievement-list">
+                            <li>Successfully developed and optimized services to ensure maximum performance</li>
+                            <li>Met project deadlines and requirements consistently</li>
+                            <li>Recognized for exceptional work performance by Lead Tech and Product Manager</li>
+                            <li>Key role in technology stack and database selection decisions</li>
+                        </ul>ul>
+                    </div>
+                </div>
+
+                <!-- Sendo -->
+                <div class="experience-item" data-aos="fade-up">
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <div>
+                                <div class="experience-title">Senior Golang Developer</div>
+                                <div class="experience-company">Sendo</div>
+                            </div>
+                            <span class="experience-period">04/2022 – 11/2022</span>span>
+                        </div>
+                        <p class="experience-description">
+                            Leading e-commerce platform in Vietnam, serving within the Customer Squad team.
+                        </p>p>
+                        <ul class="achievement-list">
+                            <li>Implemented performance optimizations for critical services</li>
+                            <li>Developed new features to enhance user experience</li>
+                            <li>Conducted code reviews and provided technical guidance</li>
+                            <li>Identified and resolved performance bottlenecks</li>
+                        </ul>ul>
+                    </div>
+                </div>
+
+                <!-- Hitachi Vantara -->
+                <div class="experience-item" data-aos="fade-up">
+                    <div class="experience-card">
+                        <div class="experience-header">
+                            <div>
+                                <div class="experience-title">Team Leader | Full Stack Developer</div>
+                                <div class="experience-company">Hitachi Vantara Vietnam</div>
+                            </div>
+                            <span class="experience-period">11/2021 – 04/2022</span>span>
+                        </div>
+                        <p class="experience-description">
+                            Promoted to Team Leader role, overseeing a team of 6 members (4 backend and 2 frontend developers).
+                        </p>p>
+                        <ul class="achievement-list">
+                            <li>Led backend development for core features: workflow, schedule, article</li>
+                            <li>Managed and mentored a team of 6 developers</li>
+                            <li>Reported directly to SA and PM, ensuring project alignment</li>
+                            <li>Provided comprehensive project support and technical leadership</li>
+                        </ul>ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Education</h2>
+                <p>Academic background and qualifications</p>
+            </div>
+            <div class="education-grid">
+                <div class="education-item" data-aos="fade-up">
+                    <div class="education-degree">Programme de Formation d'Ingénieurs d'Excellence au Vietnam (PFIEV)</div>
+                    <div class="education-school">Ho Chi Minh City University of Technology</div>
+                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Mechanical Engineering (Aerospace Engineering)</p>
+                    <div class="education-period">2012 – 2020</div>
+                    <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-light);">
+                        Equivalent Master's Degree Program
+                    </p>
+                </div>
+                <div class="education-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="education-degree">High School Diploma</div>
+                    <div class="education-school">Quang Trung Specialized High School</div>
+                    <div class="education-period">2009 – 2012</div>
+                </div>
+            </div>
+        </div>
+    </section>section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Get In Touch</h2>
+                <p>Ready to collaborate? Let's discuss your next project</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p><a href="mailto:ngocnghia128@gmail.com">ngocnghia128@gmail.com</a>a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p><a href="tel:+84794788363">+84 794 788 363</a>a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-linkedin"></i>i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>LinkedIn</h4>
+                            <p><a href="https://linkedin.com/in/nghia-nguyen-baab48223" target="_blank">Connect with me</a>a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Ho Chi Minh City, Vietnam</p>
+                        </div>
+                    </div>
+                </div>
+                <div data-aos="fade-left">
+                    <div class="cover-letter-form">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">
+                            <i class="fas fa-file-alt"></i>i> Cover Letter Generator
+                        </h3>
+                        <form id="coverLetterForm">
+                            <div class="form-group">
+                                <label for="companyName">Company Name *</label>label>
+                                <input type="text" id="companyName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="position">Position *</label>label>
+                                <input type="text" id="position" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="specificRequirements">Specific Requirements (Optional)</label>label>
+                                <textarea id="specificRequirements" class="form-control" rows="3" placeholder="Any specific requirements or details you'd like to highlight..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-download"></i>i>
+                                Generate Cover Letter
+                            </button>button>
+                        </form>form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Nghia Nguyen. All rights reserved. Built with passion for clean code and modern design.</p>
+        </div>
+    </footer>footer>
+
+    <!-- Modal for Cover Letter -->
+    <div id="coverLetterModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>span>
+            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Your Cover Letter</h3>
+            <div id="coverLetterContent" style="white-space: pre-line; line-height: 1.6; margin-bottom: 2rem;"></div>
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="downloadCoverLetter()" class="btn btn-primary">
+                    <i class="fas fa-download"></i>i>
+                    Download as PDF
+                </button>button>
+                <button onclick="copyCoverLetter()" class="btn btn-secondary">
+                    <i class="fas fa-copy"></i>i>
+                    Copy Text
+                </button>button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = 'var(--shadow-md)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Download CV function
+        function downloadCV() {
+            const link = document.createElement('a');
+            link.href = 'https://fellou.s3.amazonaws.com/user-contents/NghiaNguyen-CV-Lates-1757906234722.pdf';
+            link.download = 'Nghia_Nguyen_CV.pdf';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Cover Letter Generator
+        let generatedCoverLetter = '';
+
+        document.getElementById('coverLetterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const companyName = document.getElementById('companyName').value;
+            const position = document.getElementById('position').value;
+            const specificRequirements = document.getElementById('specificRequirements').value;
+            
+            generatedCoverLetter = generateCoverLetterText(companyName, position, specificRequirements);
+            
+            document.getElementById('coverLetterContent').textContent = generatedCoverLetter;
+            document.getElementById('coverLetterModal').style.display = 'block';
+        });
+
+        function generateCoverLetterText(companyName, position, specificRequirements) {
+            const today = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            let coverLetter = `${today}
+
+Dear Hiring Manager,
+
+I am writing to express my strong interest in the ${position} position at ${companyName}. As a Senior Backend Developer with extensive experience in Golang, microservices architecture, and scalable system design, I am excited about the opportunity to contribute to your team's success.
+
+In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p></h1></li></li></body></title></head><html lang="en">
+<head>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -3197,5 +4496,6 @@
     </script>
 </body>
 </html>
+
 
 
