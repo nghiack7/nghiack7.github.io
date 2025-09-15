@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nghia Nguyen - Senior Backend Developer</title>
     
-    <!-- SEO Meta Tags -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nghia Nguyen - Senior Backend Developer</title>
     <meta name="description" content="Senior Backend Developer specializing in Golang, Python, and microservices architecture">
     
     <!-- Google Fonts -->
@@ -50,6 +43,12 @@
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             --gradient-secondary: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+
+            /* Hero specific colors for light mode */
+            --hero-bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --hero-text-primary: #1e293b;
+            --hero-text-secondary: #475569;
+            --hero-text-accent: #2563eb;
         }
 
         html {
@@ -534,6 +533,15 @@
         .contact-item:hover {
             transform: translateY(-3px);
         }
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-item a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
 
         .contact-icon {
             width: 3rem;
@@ -819,394 +827,8 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container">
-            <a href="#" class="logo">Nghia Nguyen</a>a>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a>a></li>
-                <li><a href="#about">About</a>a></li>
-                <li><a href="#experience">Experience</a>a></li>
-                <li><a href="#skills">Skills</a>a></li>
-                <li><a href="#education">Education</a>a></li>
-                <li><a href="#contact">Contact</a>a></li>
-            </ul>ul>
-            <button class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>i>
-            </button>button>
-        </nav>nav>
-    </header>header>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content" data-aos="fade-right">
-                <h1>Nghia Nguyen</h1>
-                <p class="hero-subtitle">Senior Backend Developer</p>p>
-                <p class="hero-description">
-                    Passionate about building scalable, efficient, and maintainable backend systems using Go. 
-                    Experienced in RESTful APIs, microservices architecture, and concurrent programming with 
-                    a strong focus on performance optimization and clean code practices.
-                </p>p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">
-                        <i class="fas fa-envelope"></i>i>
-                        Get In Touch
-                    </a>a>
-                    <button onclick="downloadCV()" class="btn btn-secondary">
-                        <i class="fas fa-download"></i>i>
-                        Download CV
-                    </button>button>
-                </div>div>
-            </div>div>
-            <div class="hero-image" data-aos="fade-left">
-                <div class="hero-avatar">
-                    <i class="fas fa-user"></i>i>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
-
-    <!-- About Section -->
-    <section id="about" class="section section-alt">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">About Me</h2>
-                <p>Learn more about my background and expertise</p>
-            </div>div>
-            <div class="contact-grid">
-                <div data-aos="fade-right">
-                    <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary);">
-                        As a Senior Backend Developer, I excel in building scalable, efficient, and maintainable backend systems using Go. 
-                        I'm skilled in designing and implementing RESTful APIs, microservices architecture, and concurrent programming. 
-                        With a strong understanding of software development best practices, including testing, code review, and documentation, 
-                        I collaborate effectively with cross-functional teams to deliver projects on time and within budget.
-                    </p>
-                    <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary);">
-                        Passionate about learning new technologies and continuously improving development processes, 
-                        I'm ready to leverage my expertise to contribute effectively to your team.
-                    </p>
-                </div>div>
-                <div class="contact-info" data-aos="fade-left">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>i>
-                        </div>div>
-                        <div class="contact-details">
-                            <h4>Location</h4>
-                            <p>Ho Chi Minh City, Vietnam</p>
-                        </div>div>
-                    </div>div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-trophy"></i>i>
-                        </div>div>
-                        <div class="contact-details">
-                            <h4>Awards</h4>
-                            <p>Best Performance - Hitachi Vantara VN (2021)</p>
-                        </div>div>
-                    </div>div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-code"></i>i>
-                        </div>div>
-                        <div class="contact-details">
-                            <h4>Specialization</h4>
-                            <p>Backend Development, Microservices, API Design</p>
-                        </div>div>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Skills & Technologies</h2>
-                <p>Technical expertise and core competencies</p>
-            </div>div>
-            <div class="skills-grid">
-                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
-                    <h3><i class="fas fa-code"></i>i> Programming Languages</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Golang</span>span>
-                        <span class="skill-tag">Python</span>span>
-                        <span class="skill-tag">Node.js</span>span>
-                    </div>div>
-                </div>div>
-                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
-                    <h3><i class="fas fa-database"></i>i> Databases</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">MySQL</span>span>
-                        <span class="skill-tag">PostgreSQL</span>span>
-                        <span class="skill-tag">SQLite</span>span>
-                        <span class="skill-tag">MongoDB</span>span>
-                    </div>div>
-                </div>div>
-                <div class="skill-category" data-aos="fade-up" data-aos-delay="300">
-                    <h3><i class="fas fa-share-alt"></i>i> Message Queue</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Kafka</span>span>
-                        <span class="skill-tag">RabbitMQ</span>span>
-                        <span class="skill-tag">Redis</span>span>
-                    </div>div>
-                </div>div>
-                <div class="skill-category" data-aos="fade-up" data-aos-delay="400">
-                    <h3><i class="fas fa-cloud"></i>i> DevOps & Cloud</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Docker</span>span>
-                        <span class="skill-tag">AWS</span>span>
-                        <span class="skill-tag">Kubernetes</span>span>
-                        <span class="skill-tag">CI/CD</span>span>
-                        <span class="skill-tag">Nginx</span>span>
-                        <span class="skill-tag">Git</span>span>
-                    </div>div>
-                </div>div>
-                <div class="skill-category" data-aos="fade-up" data-aos-delay="500">
-                    <h3><i class="fas fa-users"></i>i> Soft Skills</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Problem-Solving</span>span>
-                        <span class="skill-tag">Communication</span>span>
-                        <span class="skill-tag">Leadership</span>span>
-                        <span class="skill-tag">Time Management</span>span>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="section section-alt">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Work Experience</h2>
-                <p>Professional journey and key achievements</p>
-            </div>div>
-            <div class="experience-timeline">
-                <!-- Source Of Asia -->
-                <div class="experience-item" data-aos="fade-up">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Senior Golang Developer</div>
-                                <div class="experience-company">Source Of Asia</div>
-                            </div>
-                            <span class="experience-period">8/2024 – Present</span>span>
-                        </div>
-                        <p class="experience-description">
-                            Specializing in designing and implementing backend solutions for Trasset, an advanced asset management application.
-                        </p>p>
-                        <ul class="achievement-list">
-                            <li>Optimized and scaled backend services, handling large asset datasets efficiently</li>
-                            <li>Designed a robust authentication & authorization system, improving security and access control</li>
-                            <li>Enhanced PostgreSQL query performance, reducing response times by 40%</li>
-                            <li>Streamlined CI/CD workflows, reducing deployment time and improving release cycles</li>
-                        </ul>ul>
-                    </div>
-                </div>
-
-                <!-- ECQ Vietnam -->
-                <div class="experience-item" data-aos="fade-up">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Senior Golang Developer</div>
-                                <div class="experience-company">ECQ Vietnam</div>
-                            </div>
-                            <span class="experience-period">11/2022 – 7/2024</span>span>
-                        </div>
-                        <p class="experience-description">
-                            Leading technology company specializing in cybersecurity solutions with operations across Vietnam, Thailand, and Singapore.
-                        </p>p>
-                        <ul class="achievement-list">
-                            <li>Successfully developed and optimized services to ensure maximum performance</li>
-                            <li>Met project deadlines and requirements consistently</li>
-                            <li>Recognized for exceptional work performance by Lead Tech and Product Manager</li>
-                            <li>Key role in technology stack and database selection decisions</li>
-                        </ul>ul>
-                    </div>
-                </div>
-
-                <!-- Sendo -->
-                <div class="experience-item" data-aos="fade-up">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Senior Golang Developer</div>
-                                <div class="experience-company">Sendo</div>
-                            </div>
-                            <span class="experience-period">04/2022 – 11/2022</span>span>
-                        </div>
-                        <p class="experience-description">
-                            Leading e-commerce platform in Vietnam, serving within the Customer Squad team.
-                        </p>p>
-                        <ul class="achievement-list">
-                            <li>Implemented performance optimizations for critical services</li>
-                            <li>Developed new features to enhance user experience</li>
-                            <li>Conducted code reviews and provided technical guidance</li>
-                            <li>Identified and resolved performance bottlenecks</li>
-                        </ul>ul>
-                    </div>
-                </div>
-
-                <!-- Hitachi Vantara -->
-                <div class="experience-item" data-aos="fade-up">
-                    <div class="experience-card">
-                        <div class="experience-header">
-                            <div>
-                                <div class="experience-title">Team Leader | Full Stack Developer</div>
-                                <div class="experience-company">Hitachi Vantara Vietnam</div>
-                            </div>
-                            <span class="experience-period">11/2021 – 04/2022</span>span>
-                        </div>
-                        <p class="experience-description">
-                            Promoted to Team Leader role, overseeing a team of 6 members (4 backend and 2 frontend developers).
-                        </p>p>
-                        <ul class="achievement-list">
-                            <li>Led backend development for core features: workflow, schedule, article</li>
-                            <li>Managed and mentored a team of 6 developers</li>
-                            <li>Reported directly to SA and PM, ensuring project alignment</li>
-                            <li>Provided comprehensive project support and technical leadership</li>
-                        </ul>ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>section>
-
-    <!-- Education Section -->
-    <section id="education" class="section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Education</h2>
-                <p>Academic background and qualifications</p>
-            </div>
-            <div class="education-grid">
-                <div class="education-item" data-aos="fade-up">
-                    <div class="education-degree">Programme de Formation d'Ingénieurs d'Excellence au Vietnam (PFIEV)</div>
-                    <div class="education-school">Ho Chi Minh City University of Technology</div>
-                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Mechanical Engineering (Aerospace Engineering)</p>
-                    <div class="education-period">2012 – 2020</div>
-                    <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-light);">
-                        Equivalent Master's Degree Program
-                    </p>
-                </div>
-                <div class="education-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="education-degree">High School Diploma</div>
-                    <div class="education-school">Quang Trung Specialized High School</div>
-                    <div class="education-period">2009 – 2012</div>
-                </div>
-            </div>
-        </div>
-    </section>section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section section-alt">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Get In Touch</h2>
-                <p>Ready to collaborate? Let's discuss your next project</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info" data-aos="fade-right">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p><a href="mailto:ngocnghia128@gmail.com">ngocnghia128@gmail.com</a>a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Phone</h4>
-                            <p><a href="tel:+84794788363">+84 794 788 363</a>a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fab fa-linkedin"></i>i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>LinkedIn</h4>
-                            <p><a href="https://linkedin.com/in/nghia-nguyen-baab48223" target="_blank">Connect with me</a>a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Location</h4>
-                            <p>Ho Chi Minh City, Vietnam</p>
-                        </div>
-                    </div>
-                </div>
-                <div data-aos="fade-left">
-                    <div class="cover-letter-form">
-                        <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">
-                            <i class="fas fa-file-alt"></i>i> Cover Letter Generator
-                        </h3>
-                        <form id="coverLetterForm">
-                            <div class="form-group">
-                                <label for="companyName">Company Name *</label>label>
-                                <input type="text" id="companyName" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="position">Position *</label>label>
-                                <input type="text" id="position" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="specificRequirements">Specific Requirements (Optional)</label>label>
-                                <textarea id="specificRequirements" class="form-control" rows="3" placeholder="Any specific requirements or details you'd like to highlight..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                <i class="fas fa-download"></i>i>
-                                Generate Cover Letter
-                            </button>button>
-                        </form>form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Nghia Nguyen. All rights reserved. Built with passion for clean code and modern design.</p>
-        </div>
-    </footer>footer>
-
-    <!-- Modal for Cover Letter -->
-    <div id="coverLetterModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>span>
-            <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Your Cover Letter</h3>
-            <div id="coverLetterContent" style="white-space: pre-line; line-height: 1.6; margin-bottom: 2rem;"></div>
-            <div style="display: flex; gap: 1rem;">
-                <button onclick="downloadCoverLetter()" class="btn btn-primary">
-                    <i class="fas fa-download"></i>i>
-                    Download as PDF
-                </button>button>
-                <button onclick="copyCoverLetter()" class="btn btn-secondary">
-                    <i class="fas fa-copy"></i>i>
-                    Copy Text
-                </button>button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
+
     <script>
         // Initialize AOS (Animate On Scroll)
         AOS.init({
@@ -1306,29 +928,26 @@ Dear Hiring Manager,
 
 I am writing to express my strong interest in the ${position} position at ${companyName}. As a Senior Backend Developer with extensive experience in Golang, microservices architecture, and scalable system design, I am excited about the opportunity to contribute to your team's success.
 
-In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p></h1></li></li></body></title></head><html lang="en">
-<head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nghia Nguyen - Senior Backend Developer</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Senior Backend Developer specializing in Golang, Microservices, and Cloud Technologies - Nghia Nguyen">
-    <meta name="keywords" content="backend developer, golang, microservices, cloud, developer, nghia nguyen">
-    <meta name="author" content="Nghia Nguyen">
+In my current role as Senior Backend Developer, I have successfully designed and implemented several high-performance microservices systems that serve millions of users daily. My expertise in Golang, combined with my deep understanding of cloud architecture and DevOps practices, has enabled me to deliver robust solutions that exceed business requirements.
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+My key achievements include:
+
+• Successfully led the migration of monolithic applications to microservices architecture, resulting in 40% improved system performance and 60% reduction in deployment time
+• Designed and implemented RESTful APIs serving over 10 million requests per day with 99.9% uptime
+• Built real-time data processing pipelines using Apache Kafka and Redis, handling millions of events daily
+• Optimized database queries and implemented caching strategies that reduced response times by 50%
+
+I am particularly drawn to ${companyName} because of your commitment to innovation and technical excellence. I would welcome the opportunity to discuss how my experience in building scalable backend systems can contribute to your team's goals.
+
+Thank you for considering my application. I look forward to hearing from you.
+
+Best regards,
+Nghia Nguyen
+                    
     <!-- jsPDF Library for PDF download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
@@ -1359,6 +978,12 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             --text-muted: #64748b;
             --border-color: #334155;
             --gradient-secondary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+
+            /* Hero specific colors for dark mode */
+            --hero-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --hero-text-primary: #f1f5f9;
+            --hero-text-secondary: #cbd5e1;
+            --hero-text-accent: #60a5fa;
         }
 
         * {
@@ -1843,7 +1468,7 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
         }
 
         .timeline-date {
-            color: var(--primary-color);
+            color: var(--primary-color) !important;
             font-weight: 600;
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
@@ -2313,77 +1938,6 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#home" class="nav-logo">Nghia Nguyen</a>a>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a>a></li>
-                <li><a href="#about" class="nav-link">About</a>a></li>
-                <li><a href="#skills" class="nav-link">Skills</a>a></li>
-                <li><a href="#experience" class="nav-link">Experience</a>a></li>
-                <li><a href="#projects" class="nav-link">Projects</a>a></li>
-                <li><a href="#contact" class="nav-link">Contact</a>a></li>
-            </ul>ul>
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>i>
-            </button>button>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>i>
-            </button>button>
-        </div>div>
-    </nav>nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">Senior Backend Developer</h1>h1>
-                <p class="hero-subtitle">
-                    Passionate about building scalable microservices and cloud-native applications using Golang, 
-                    with expertise in distributed systems and modern DevOps practices.
-                </p>p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="downloadCV()">
-                        <i class="fas fa-download"></i>i>
-                        Download CV
-                    </button>button>
-                    <button class="btn btn-secondary" onclick="openCoverLetterModal()">
-                        <i class="fas fa-file-alt"></i>i>
-                        Generate Cover Letter
-                    </button>button>
-                </div>div>
-            </div>div>
-            <div class="hero-image">
-                <div class="hero-avatar">
-                    <i class="fas fa-user-tie"></i>i>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>h2>
-            <div class="about-grid">
-                <div class="about-image">
-                    <div cl</li></li></body></title></head>    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nghia Nguyen - Senior Backend Developer</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Senior Backend Developer specializing in Golang, Microservices, and Cloud Technologies - Nghia Nguyen">
-    <meta name="keywords" content="backend developer, golang, microservices, cloud, developer, nghia nguyen">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <!-- jsPDF Library for PDF download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
@@ -2415,6 +1969,12 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             --bg-secondary: #1f2937;
             --bg-accent: #374151;
             --border-color: #374151;
+
+            /* Hero specific colors for dark mode - override */
+            --hero-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --hero-text-primary: #f9fafb;
+            --hero-text-secondary: #d1d5db;
+            --hero-text-accent: #60a5fa;
         }
 
         * {
@@ -2505,8 +2065,8 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
 
         /* Hero Section */
         .hero {
-            background: var(--gradient-primary);
-            color: white;
+            background: var(--hero-bg);
+            color: var(--hero-text-primary);
             padding: 8rem 0 4rem;
             text-align: center;
             position: relative;
@@ -2532,13 +2092,14 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--hero-text-primary);
             animation: fadeInUp 1s ease;
         }
 
         .hero .subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            color: var(--hero-text-secondary);
             animation: fadeInUp 1s ease 0.2s both;
         }
 
@@ -2546,7 +2107,7 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             font-size: 1.1rem;
             max-width: 800px;
             margin: 0 auto 3rem;
-            opacity: 0.8;
+            color: var(--hero-text-secondary);
             animation: fadeInUp 1s ease 0.4s both;
         }
 
@@ -2572,25 +2133,26 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             font-size: 1rem;
         }
 
-        .btn-primary {
-            background: white;
-            color: var(--primary-color);
+        .hero .btn-primary {
+            background: var(--primary-color);
+            color: white;
         }
 
-        .btn-primary:hover {
+        .hero .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
+            background: var(--primary-dark);
         }
 
-        .btn-secondary {
+        .hero .btn-secondary {
             background: transparent;
-            color: white;
-            border: 2px solid white;
+            color: var(--hero-text-primary);
+            border: 2px solid var(--hero-text-primary);
         }
 
-        .btn-secondary:hover {
-            background: white;
-            color: var(--primary-color);
+        .hero .btn-secondary:hover {
+            background: var(--hero-text-primary);
+            color: var(--hero-bg);
         }
 
         /* Section Styles */
@@ -2788,7 +2350,7 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
 
         .timeline-date {
             background: var(--gradient-primary);
-            color: white;
+            color: white !important;
             padding: 0.5rem 1rem;
             border-radius: 2rem;
             font-weight: 600;
@@ -3246,69 +2808,43 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
 <body>
     <!-- Loading Animation -->
     <div class="loading" id="loading">
-        <div class="spinner"></div>div>
-    </div>div>
+        <div class="spinner"></div>
+    </div>
 
     <!-- Success Message -->
     <div class="success-message" id="successMessage">
-        <i class="fas fa-check-circle"></i>i>
+        <i class="fas fa-check-circle"></i>
         <span>Action completed successfully!</span>
-    </div>div>
-
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
-                    <h1>Nghia Nguyen</h1>
-                </div>div>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a>a></li>
-                    <li><a href="#skills">Skills</a>a></li>
-                    <li><a href="#experience">Experience</a>a></li>
-                    <li><a href="#projects">Projects</a>a></li>
-                    <li><a href="#contact">Contact</a>a></li>
-                </ul>ul>
-                <div class="nav-actions">
-                    <button class="theme-toggle" onclick="toggleTheme()">
-                        <i class="fas fa-moon" id="themeIcon"></i>i>
-                    </button>button>
-                    <button class="mobile-menu-toggle">
-                        <i class="fas fa-bars"></i>i>
-                    </button>button>
-                </div>div>
-            </div>div>
-        </nav>nav>
-    </header>header>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1>Nghia Nguyen</h1>
-                <p class="subtitle">Senior Backend Developer</p>p>
+                <p class="subtitle">Senior Backend Developer</p>
                 <p class="description">
                     Experienced in building scalable, efficient, and maintainable backend systems using Go. 
                     Skilled in designing RESTful APIs, microservices architecture, and concurrent programming. 
                     Passionate about learning new technologies and delivering high-quality solutions.
-                </p>p>
+                </p>
                 <div class="cta-buttons">
                     <button class="btn btn-primary" onclick="downloadCV()">
-                        <i class="fas fa-download"></i>i>
+                        <i class="fas fa-download"></i>
                         Download CV
-                    </button>button>
+                    </button>
                     <button class="btn btn-secondary" onclick="openCoverLetterModal()">
-                        <i class="fas fa-edit"></i>i>
+                        <i class="fas fa-edit"></i>
                         Generate Cover Letter
-                    </button>button>
+                    </button>
                     <a href="#contact" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i>i>
+                        <i class="fas fa-envelope"></i>
                         Get In Touch
-                    </a>a>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- About Section -->
     <section id="about" class="section">
@@ -3316,8 +2852,8 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="profile-image">
-                    <img src="https://via.placeholder.com/250x250/2563eb/ffffff?text=NN" alt="Nghia Nguyen">
-                </div>div>
+                    <img src="https://scontent.fhan3-2.fna.fbcdn.net/v/t39.30808-6/493318610_9935872133141946_5781195334181131958_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEZpDIw3stug29-a6ECM7G6XkA6kUrbR3deQDqRSttHd_Thj7uMm3Y5p9ITWqb6neX2URKTXZi0-92ILZq5eJz9&_nc_ohc=i0XSeVgvT2UQ7kNvwHIOwmi&_nc_oc=AdklyksYqDYSzUHfO_WcUH3lSPMSElKTgIHzKy_7qb52bYaZyHa0riGgah58J_0C_d0&_nc_zt=23&_nc_ht=scontent.fhan3-2.fna&_nc_gid=aHmqYcvHmjGirjvpzpfl-Q&oh=00_AfZefMLcCaN1bpns_-RrA0sYoA5VzALdwGz5SqxVBsIBsw&oe=68CDAAEF" alt="Nghia Nguyen">
+                </div>
                 <div class="about-text">
                     <h3>Senior Backend Developer</h3>
                     <p>
@@ -3332,26 +2868,26 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                     </p>
                     <div class="contact-info">
                         <div class="contact-item">
-                            <i class="fas fa-phone"></i>i>
-                            <span>+84794788363</span>
-                        </div>div>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+84794788363" style="color: inherit; text-decoration: none;">+84794788363</a>
+                        </div>
                         <div class="contact-item">
-                            <i class="fas fa-envelope"></i>i>
-                            <span>ngocnghia128@gmail.com</span>
-                        </div>div>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:ngocnghia128@gmail.com" style="color: inherit; text-decoration: none;">ngocnghia128@gmail.com</a>
+                        </div>
                         <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>i>
+                            <i class="fas fa-map-marker-alt"></i>
                             <span>Ho Chi Minh City</span>
-                        </div>div>
+                        </div>
                         <div class="contact-item">
-                            <i class="fab fa-linkedin"></i>i>
-                            <span>linkedin.com/nghia-nguyen-baab48223</span>
-                        </div>div>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://www.linkedin.com/in/nghia-nguyen-anthony-baab48223/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">linkedin.com/in/nghia-nguyen-baab48223</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Skills Section -->
     <section id="skills" class="section" style="background: var(--bg-secondary);">
@@ -3359,131 +2895,131 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             <h2 class="section-title">Skills & Expertise</h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3><i class="fas fa-code"></i>i> Programming Languages</h3>
+                    <h3><i class="fas fa-code"></i> Programming Languages</h3>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Golang</span>
                             <span>95%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 95%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 95%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Python</span>
-                            <span>85%</span>
-                        </div>div>
+                            <span>60%</span>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 85%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 85%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>NodeJS</span>
-                            <span>80%</span>
-                        </div>div>
+                            <span>50%</span>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 80%"></div>div>
-                        </div>div>
-                    </div>div>
-                </div>div>
+                            <div class="skill-progress" style="--progress-width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="skill-category">
-                    <h3><i class="fas fa-database"></i>i> Databases</h3>
+                    <h3><i class="fas fa-database"></i> Databases</h3>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>PostgreSQL</span>
                             <span>90%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 90%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 90%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>MySQL</span>
                             <span>85%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 85%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 85%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>MongoDB</span>
                             <span>75%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 75%"></div>div>
-                        </div>div>
-                    </div>div>
-                </div>div>
+                            <div class="skill-progress" style="--progress-width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="skill-category">
-                    <h3><i class="fas fa-cloud"></i>i> DevOps & Cloud</h3>
+                    <h3><i class="fas fa-cloud"></i> DevOps & Cloud</h3>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Docker</span>
                             <span>90%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 90%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 90%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>AWS</span>
-                            <span>85%</span>
-                        </div>div>
+                            <span>80%</span>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 85%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 85%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Kubernetes</span>
-                            <span>75%</span>
-                        </div>div>
+                            <span>40%</span>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 75%"></div>div>
-                        </div>div>
-                    </div>div>
-                </div>div>
+                            <div class="skill-progress" style="--progress-width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="skill-category">
-                    <h3><i class="fas fa-exchange-alt"></i>i> Messaging & Queues</h3>
+                    <h3><i class="fas fa-exchange-alt"></i> Messaging & Queues</h3>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Kafka</span>
                             <span>85%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 85%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 85%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>RabbitMQ</span>
-                            <span>80%</span>
-                        </div>div>
+                            <span>50%</span>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 80%"></div>div>
-                        </div>div>
-                    </div>div>
+                            <div class="skill-progress" style="--progress-width: 80%"></div>
+                        </div>
+                    </div>
                     <div class="skill-item">
                         <div class="skill-name">
                             <span>Redis</span>
                             <span>90%</span>
-                        </div>div>
+                        </div>
                         <div class="skill-bar">
-                            <div class="skill-progress" style="--progress-width: 90%"></div>div>
-                        </div>div>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
+                            <div class="skill-progress" style="--progress-width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Experience Section -->
     <section id="experience" class="section">
@@ -3492,7 +3028,7 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">8/2024 – Present</div>div>
+                        <div class="timeline-date">8/2024 – Present</div>
                         <h3 class="timeline-title">Senior Golang Developer</h3>
                         <p class="timeline-company">Source Of Asia, Ho Chi Minh City</p>
                         <p class="timeline-description">
@@ -3505,13 +3041,13 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <li>Designed a robust authentication & authorization system</li>
                             <li>Enhanced PostgreSQL query performance, reducing response times by 40%</li>
                             <li>Streamlined CI/CD workflows, reducing deployment time</li>
-                        </ul>ul>
-                    </div>div>
-                </div>div>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">11/2022 – 7/2024</div>div>
+                        <div class="timeline-date">11/2022 – 7/2024</div>
                         <h3 class="timeline-title">Senior Golang Developer</h3>
                         <p class="timeline-company">ECQ Vietnam, Ho Chi Minh City</p>
                         <p class="timeline-description">
@@ -3523,13 +3059,13 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <li>Met project deadlines and requirements consistently</li>
                             <li>Led technology stack and database architecture decisions</li>
                             <li>Identified and resolved persistent project issues</li>
-                        </ul>ul>
-                    </div>div>
-                </div>div>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">04/2022 – 11/2022</div>div>
+                        <div class="timeline-date">04/2022 – 11/2022</div>
                         <h3 class="timeline-title">Senior Golang Developer</h3>
                         <p class="timeline-company">Sendo, Ho Chi Minh City</p>
                         <p class="timeline-description">
@@ -3541,13 +3077,13 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <li>Developed new features to enhance user experience</li>
                             <li>Conducted code reviews and provided technical guidance</li>
                             <li>Contributed to architectural discussions and technology selection</li>
-                        </ul>ul>
-                    </div>div>
-                </div>div>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">11/2021 – 04/2022</div>div>
+                        <div class="timeline-date">11/2021 – 04/2022</div>
                         <h3 class="timeline-title">Team Leader | Full Stack Developer</h3>
                         <p class="timeline-company">Hitachi Vantara Vietnam, Ho Chi Minh City</p>
                         <p class="timeline-description">
@@ -3559,13 +3095,13 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <li>Developed core features: workflow, schedule, article management</li>
                             <li>Reported directly to SA and PM of project</li>
                             <li>Received "Best Performance" award in 2021</li>
-                        </ul>ul>
-                    </div>div>
-                </div>div>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">6/2019 – 03/2020</div>div>
+                        <div class="timeline-date">6/2019 – 03/2020</div>
                         <h3 class="timeline-title">Fresher Developer</h3>
                         <p class="timeline-company">TMA Solutions, Ho Chi Minh City</p>
                         <p class="timeline-description">
@@ -3576,12 +3112,12 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <li>Developed functions for projects using Golang and Python</li>
                             <li>Supported web application projects for employee management</li>
                             <li>Wrote automation scripts using Python and Spring Boot</li>
-                        </ul>ul>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Projects Section -->
     <section id="projects" class="section" style="background: var(--bg-secondary);">
@@ -3590,8 +3126,8 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-cog"></i>i>
-                    </div>div>
+                        <i class="fas fa-cog"></i>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Trasset - Asset Management System</h3>
                         <p class="project-description">
@@ -3604,20 +3140,20 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <span class="tag">AWS</span>
                             <span class="tag">Docker</span>
                             <span class="tag">GitLab CI/CD</span>
-                        </div>div>
+                        </div>
                         <div class="project-links">
                             <a href="#" class="project-link">
-                                <i class="fab fa-github"></i>i>
+                                <i class="fab fa-github"></i>
                                 GitHub
-                            </a>a>
-                        </div>div>
-                    </div>div>
-                </div>div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-shield-alt"></i>i>
-                    </div>div>
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">Cybersecurity Solutions</h3>
                         <p class="project-description">
@@ -3629,20 +3165,20 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <span class="tag">Security</span>
                             <span class="tag">Microservices</span>
                             <span class="tag">Performance</span>
-                        </div>div>
+                        </div>
                         <div class="project-links">
                             <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>i>
+                                <i class="fas fa-external-link-alt"></i>
                                 Live Demo
-                            </a>a>
-                        </div>div>
-                    </div>div>
-                </div>div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="project-card">
                     <div class="project-image">
-                        <i class="fas fa-shopping-cart"></i>i>
-                    </div>div>
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
                     <div class="project-content">
                         <h3 class="project-title">E-commerce Platform Services</h3>
                         <p class="project-description">
@@ -3654,18 +3190,18 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                             <span class="tag">E-commerce</span>
                             <span class="tag">Payment</span>
                             <span class="tag">Scalability</span>
-                        </div>div>
+                        </div>
                         <div class="project-links">
                             <a href="#" class="project-link">
-                                <i class="fab fa-github"></i>i>
+                                <i class="fab fa-github"></i>
                                 GitHub
-                            </a>a>
-                        </div>div>
-                    </div>div>
-                </div>div>
-            </div>div>
-        </div>div>
-    </section>section>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact Section -->
     <section id="contact" class="section">
@@ -3676,62 +3212,62 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                     <h3 style="margin-bottom: 2rem; color: var(--primary-color);">Send me a message</h3>
                     <form id="contactForm" onsubmit="handleContactForm(event)">
                         <div class="form-group">
-                            <label for="name">Name</label>label>
+                            <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
-                        </div>div>
+                        </div>
                         <div class="form-group">
-                            <label for="email">Email</label>label>
+                            <label for="email">Email</label>
                             <input type="email" id="email" name="email" required>
-                        </div>div>
+                        </div>
                         <div class="form-group">
-                            <label for="subject">Subject</label>label>
+                            <label for="subject">Subject</label>
                             <input type="text" id="subject" name="subject" required>
-                        </div>div>
+                        </div>
                         <div class="form-group">
-                            <label for="message">Message</label>label>
+                            <label for="message">Message</label>
                             <textarea id="message" name="message" required></textarea>
-                        </div>div>
+                        </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-paper-plane"></i>i>
+                            <i class="fas fa-paper-plane"></i>
                             Send Message
-                        </button>button>
-                    </form>form>
-                </div>div>
+                        </button>
+                    </form>
+                </div>
 
                 <div class="contact-info-detailed">
                     <h3 style="margin-bottom: 2rem; color: var(--primary-color);">Contact Information</h3>
                     <div class="contact-item" style="margin-bottom: 2rem;">
-                        <i class="fas fa-map-marker-alt"></i>i>
+                        <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h4>Location</h4>
                             <p>Ho Chi Minh City, Vietnam</p>
                         </div>
                     </div>
                     <div class="contact-item" style="margin-bottom: 2rem;">
-                        <i class="fas fa-phone"></i>i>
+                        <i class="fas fa-phone"></i>
                         <div>
                             <h4>Phone</h4>
-                            <p>+84794788363</p>
+                            <p><a href="tel:+84794788363" style="color: inherit; text-decoration: none;">+84794788363</a></p>
                         </div>
                     </div>
                     <div class="contact-item" style="margin-bottom: 2rem;">
-                        <i class="fas fa-envelope"></i>i>
+                        <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p>ngocnghia128@gmail.com</p>
+                            <p><a href="mailto:ngocnghia128@gmail.com" style="color: inherit; text-decoration: none;">ngocnghia128@gmail.com</a></p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <i class="fab fa-linkedin"></i>i>
+                        <i class="fab fa-linkedin"></i>
                         <div>
                             <h4>LinkedIn</h4>
-                            <p>linkedin.com/nghia-nguyen-baab48223</p>
+                            <p><a href="https://linkedin.com/in/nghia-nguyen-baab48223" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">linkedin.com/nghia-nguyen-baab48223</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>section>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -3740,60 +3276,60 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                 <p>&copy; 2024 Nghia Nguyen. All rights reserved.</p>
                 <div class="social-links">
                     <a href="https://linkedin.com/in/nghia-nguyen-anthony-baab48223/" class="social-link">
-                        <i class="fab fa-linkedin"></i>i>
-                    </a>a>
+                        <i class="fab fa-linkedin"></i>
+                    </a>
                     <a href="https://github.com/nghiack7" class="social-link">
-                        <i class="fab fa-github"></i>i>
-                    </a>a>
+                        <i class="fab fa-github"></i>
+                    </a>
                     <a href="mailto:ngocnghia128@gmail.com" class="social-link">
-                        <i class="fas fa-envelope"></i>i>
-                    </a>a>
+                        <i class="fas fa-envelope"></i>
+                    </a>
                 </div>
             </div>
         </div>
-    </footer>footer>
+    </footer>
 
     <!-- Cover Letter Modal -->
     <div class="modal" id="coverLetterModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeCoverLetterModal()">
-                <i class="fas fa-times"></i>i>
-            </button>button>
+                <i class="fas fa-times"></i>
+            </button>
             <h2 style="margin-bottom: 2rem; color: var(--primary-color);">Generate Cover Letter</h2>
             <form class="cover-letter-form" onsubmit="generateCoverLetter(event)">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="companyName">Company Name</label>label>
+                        <label for="companyName">Company Name</label>
                         <input type="text" id="companyName" name="companyName" required>
                     </div>
                     <div class="form-group">
-                        <label for="position">Position</label>label>
+                        <label for="position">Position</label>
                         <input type="text" id="position" name="position" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="hiringManager">Hiring Manager</label>label>
+                        <label for="hiringManager">Hiring Manager</label>
                         <input type="text" id="hiringManager" name="hiringManager" placeholder="Optional">
                     </div>
                     <div class="form-group">
-                        <label for="referenceSource">How did you hear about us?</label>label>
+                        <label for="referenceSource">How did you hear about us?</label>
                         <input type="text" id="referenceSource" name="referenceSource" placeholder="Optional">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="specificRequirements">Specific Requirements/Skills</label>label>
+                    <label for="specificRequirements">Specific Requirements/Skills</label>
                     <textarea id="specificRequirements" name="specificRequirements" placeholder="List specific requirements or skills mentioned in the job posting"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="whyCompany">Why this company?</label>label>
+                    <label for="whyCompany">Why this company?</label>
                     <textarea id="whyCompany" name="whyCompany" placeholder="Why are you interested in this company specifically?"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    <i class="fas fa-file-alt"></i>i>
+                    <i class="fas fa-file-alt"></i>
                     Generate & Download Cover Letter
-                </button>button>
-            </form>form>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -4149,22 +3685,7 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
     </script>
 </body>
 </html>
-            doc.setFont("helvetica");
             
-            let yPosition = 20;
-            const margin = 20;
-            const lineHeight = 6;
-
-            // Header
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            doc.text('Nghia Nguyen', margin, yPosition);
-            yPosition += 5;
-            doc.text('Senior Backend Developer', margin, yPosition);
-            yPosition += 5;
-            doc.text('+84794788363 | ngocnghia128@gmail.com', margin, yPosition);
-            yPosition += </p></p></h4></h4></p></div></li></li></p></p></li></li></h1></span></body></style></title></head>    <meta name="keywords" content="backend developer, golang, microservices, cloud, developer">
-    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
     <!-- CSS -->
@@ -4187,8 +3708,8 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
                 </div>
                 <div class="nav-links">
                     <a href="#about">About</a>
-                    <a href="#experience">Experience</a>
-                    <a href="#skills">Skills</a>
+                            <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a> 
                     <a href="#projects">Projects</a>
                     <a href="#contact">Contact</a>
                     <button id="theme-toggle" aria-label="Toggle dark mode">
@@ -4201,286 +3722,6 @@ In my current role as Senior G</p></p></h4></h4></p></p></li></li></div></p></p>
             </div>
         </nav>
     </header>
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Senior Backend Developer</h1>
-                <p>Specializing in scalable systems and microservices architecture</p>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/nghia-nguyen-anthony-baab48223/" target="_blank">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://github.com/nghiack7" target="_blank">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="mailto:ngocnghia128@gmail.com">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <p>Senior Backend Developer with 5+ years of experience in building scalable, efficient systems using Go/Golang. 
-                Specialized in RESTful APIs, microservices architecture, and concurrent programming. Strong track record in leading 
-                development teams and delivering high-performance solutions.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-        <div class="container">
-            <h2>Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Languages</h3>
-                    <ul>
-                        <li>Golang (Main)</li>
-                        <li>Python (Secondary)</li>
-                        <li>NodeJS (Secondary)</li>
-                        <li>ReactJS (Secondary)</li>
-                        <li>Typescript (Secondary)</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Databases</h3>
-                    <ul>
-                        <li>MySQL</li>
-                        <li>PostgreSQL</li>
-                        <li>MongoDB</li>
-                        <li>SQLite</li>
-                        <li>Redis</li>
-                        <li>DynamoDB</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Technologies</h3>
-                    <ul>
-                        <li>Docker</li>
-                        <li>Kubernetes</li>
-                        <li>AWS</li>
-                        <li>Nginx</li>
-                        <li>Git</li>
-                        <li>CI/CD</li>
-                        <li>Kafka</li>
-                        <li>RabbitMQ</li>
-                        <li>ELK Stack</li>
-                        <li>Prometheus</li>
-                        <li>Grafana</li>
-                        <li>Kibana</li>
-                        <li>Elasticsearch</li>
-                        <li>Logstash</li>
-                        <li>Jenkins</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Tools</h3>
-                    <ul>
-                        <li>VSCode</li>
-                        <li>IntelliJ IDEA</li>
-                        <li>Postman</li>
-                        <li>Swagger</li>
-                        <li>Jira</li>
-                        <li>Confluence</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Soft Skills</h3>
-                    <ul>
-                        <li>Problem Solving</li>
-                        <li>Teamwork</li>
-                        <li>Communication</li>
-                        <li>Adaptability</li>
-                        <li>Leadership</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="section">
-        <div class="container">
-            <h2>Work Experience</h2>
-            <di class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">11/2022 - Present</div>
-                    <div class="timeline-content">
-                        <h3>Senior Golang Developer</h3>
-                        <h4>ECQ Vietnam | Ho Chi Minh City</h4>
-                        <ul>
-                            <li>Lead the development and maintenance of services using Golang for various projects.</li>
-                            <li>Responsible for performance optimization and ensuring efficient query processing.</li>
-                            <li>Collaborate with the Product Manager and Technical Leader to oversee project requirements.</li>
-                            <li>Identify and address persistent issues regarding technology stack and database architecture.</li>
-                            <li>Implemented CI/CD pipelines to streamline deployment processes.</li>
-                            <li>Mentored junior developers, enhancing team productivity and skill levels.</li>
-                        </ul>
-                        <h5>Achievements:</h5>
-                        <ul>
-                            <li>- Successfully developed and optimized services to ensure maximum performance and efficient query processing.</li>
-                            <li>- Met project deadlines and requirements by delivering services that met or exceeded expectations.</li>
-                            <li>- Recognized and praised for exceptional work performance by both Lead Tech and Product Manager.</li>
-                            <li>- Played a key role in decision-making processes regarding the selection of technology stacks and databases, contributing to the overall success of projects.</li>
-                            <li>- Identified and addressed persistent issues within projects, contributing to improved project stability and performance.</li>
-                        </ul>
-                        <h5>Responsibilities:</h5>
-                        <ul>
-                            <li>- Conducted regular code reviews and maintained documentation standards.</li>
-                            <li>- As a Senior Golang Developer at ECQ Viet Nam, I lead the development and maintenance of Golang services for cybersecurity solutions. With a focus on performance and efficiency, I make strategic decisions regarding technology and database architecture while overseeing our team's operations to ensure seamless functionality.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">04/2022 - 11/2022</div>
-                    <div class="timeline-content">
-                        <h3>Senior Golang Developer</h3>
-                        <h4>Sendo | Ho Chi Minh City</h4>
-                        <ul>
-                            <li>Worked within the Customer Squad to enhance e-commerce platform services.</li>
-                            <li>Implemented new features and optimized existing services for better performance.</li>
-                            <li>Conducted code reviews and provided technical guidance to team members.</li>
-                        </ul>
-                        <h5>Achievements:</h5>
-                        <ul>
-                            <li>- Achieved a 30% reduction in response time through code optimization.</li>
-                            <li>- Successfully launched three major features that increased user engagement.</li>
-                        </ul>
-                        <h5>Responsibilities:</h5>
-                        <ul>
-                            <li>- Implemented performance optimizations for critical services.</li>
-                            <li>- Developed new features to enhance user experience.</li>
-                            <li>- Conducted code reviews and provided technical guidance.</li>
-                            <li>- Identified and resolved performance bottlenecks.</li>
-                            <li>- Contributed to architectural discussions and technology selection.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">11/2021 - 4/2022</div>
-                    <div class="timeline-content">
-                        <h3>Team Leader | Full Stack Developer</h3>
-                        <h4>Hitachi Vantara Vietnam | Ho Chi Minh City</h4>
-                        <ul>
-                            <li>Oversaw a team of 6 members, including backend and frontend developers.</li>
-                            <li>Responsible for implementing key features of the project, including workflow and scheduling.</li>
-                            <li>Supported and guided frontend team members in their development tasks.</li>
-                        </ul>
-                        <h5>Achievements:</h5>
-                        <ul>
-                            <li>- Led the team to achieve a 95% project delivery success rate.</li>
-                            <li>- Successfully delivered multiple projects on time and within budget.</li>
-                            <li>- Enhanced team collaboration through regular stand-ups and retrospectives.</li>
-                            <li>- Mentored junior developers, enhancing team productivity and skill levels.</li>
-                        </ul>
-                        <h5>Responsibilities:</h5>
-                        <ul>
-                            <li>- Backend development core future: workflow, schedule, article.</li>
-                            <li>- Leader and support team, which have 6 members.</li>
-                            <li>- Report directlyto SA and PM of project.</li>
-                            <li>- Support overall project.</li>
-                        </ul>
-                    </div>
-                </div>
-            <div class="timeline-item">
-                <div class="timeline-date">4/2021 - 8/2021</div>
-                <div class="timeline-content">
-                    <h3>Freelance Developer</h3>
-                    <h4>Freelance | Ho Chi Minh City</h4>
-                    <ul>
-                        <li>Worked on various projects, including web applications and backend services.</li>
-                        <li>Utilized Golang, Python, and other technologies to deliver high-quality solutions.</li>
-                        <li>Collaborated with clients to understand project requirements and deliver tailored solutions.</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">6/2020 - 4/2021</div>
-                <div class="timeline-content">
-                    <h3>Backend Developer</h3>
-                    <h4>Amaris | Ho Chi Minh City</h4>
-                    <ul>
-                        <li>Developed and maintained backend services using Golang.</li>
-                        <li>Implemented RESTful APIs and microservices architecture.</li>
-                        <li>Collaborated with frontend developers to ensure seamless integration.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">6/2019 - 3/2020</div>
-                <div class="timeline-content">
-                    <h3>Fresher Developer</h3>
-                    <h4>TMA Solutions | Ho Chi Minh City</h4>
-                    <ul>
-                        <li>Developed function for the project using Golang, Python.</li>
-                        <li>Support the project, which is a web application for the management of the company's employees.</li>
-                        <li> write automation script for the project using Python, and Spring Boot.</li>
-                    </ul>
-                </div>
-            </div>
-        </div> 
-        </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education" class="section">
-        <div class="container">
-            <h2>Education</h2>
-            <div class="education-content">
-                <div class="education-item">
-                    <h3>Programme de Formation d'Ingénieurs d'Excellence au Vietnam (PFIEV)</h3>
-                    <h4>Ho Chi Minh City University of Technology (HCMUT)</h4>
-                    <p class="degree"><a href="http://pfiev.hcmut.edu.vn/pfiev/index.php?tin=57">Equivalent Master of Engineering</a></p>
-                    <p class="major">Mechanical Engineering (Aerospace Engineering)</p>
-                    <p class="duration">2012 - 2020</p>
-                </div>
-                <div class="education-item">
-                    <h3>Quang Trung Specialized High School</h3>
-                    <h4>Binh Phuoc Province</h4>
-                    <p class="duration">2008 - 2012</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Contact Me</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:ngocnghia128@gmail.com">ngocnghia128@gmail.com</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <a href="tel:+84794788363">+84794788363</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Ho Chi Minh City, Vietnam</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> Nghia Nguyen. All rights reserved.</p>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
