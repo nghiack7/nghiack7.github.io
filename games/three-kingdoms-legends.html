@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>Three Kingdoms Legends - Epic Strategy Battle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffd700;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('https://images.unsplash.com/photo-1569163139394-de4798aa62b6?w=1920') center/cover;
+            opacity: 0.4;
+            animation: slowZoom 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .game-container {
+            width: 95%;
+            max-width: 1400px;
+            background: rgba(20, 10, 5, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.8),
+                inset 0 0 50px rgba(255,215,0,0.05),
+                0 0 100px rgba(255,215,0,0.1);
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #8b4513, #ffd700, #8b4513) 1;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700, #ffed4e, #ff9500, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 30px rgba(255,215,0,0.5),
+                0 0 60px rgba(255,149,0,0.3);
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            animation: glow 3s ease-in-out infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255,215,0,0.8));
+                transform: scale(1.02);
+            }
+        }
+
+        .subtitle {
+            color: #daa520;
+            font-size: 1.3em;
+            letter-spacing: 4px;
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .player-area, .enemy-area {
+            background:
+                linear-gradient(135deg, rgba(0,0,0,0.7), rgba(139,69,19,0.2)),
+                url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800') center/cover;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #8b4513;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-area::before, .enemy-area::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 0;
+        }
+
+        .player-area > *, .enemy-area > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .battle-area {
+            background:
+                radial-gradient(circle at center, rgba(255,215,0,0.15) 0%, transparent 70%),
+                url('https://images.unsplash.com/photo-1569163139599-0f4517e36f51?w=1200') center/cover;
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #ffd700, #ff6600, #ffd700) 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 450px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 50px rgba(255,215,0,0.2),
+                0 0 30px rgba(255,215,0,0.2);
+        }
+
+        .battle-area::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 0;
+        }
+
+        .battle-area > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .character-card {
+            background: linear-gradient(135deg, #2a1810, #4a2818);
+            border: 2px solid #daa520;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .character-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.4), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .character-card:hover::before {
+            animation: shine 0.5s ease;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255,215,0,0.3);
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #3a2820, #5a3828);
+        }
+
+        .character-portrait {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            border: 3px solid #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(255,215,0,0.3);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center top;
+        }
+
+        .character-portrait::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 50%, rgba(0,0,0,0.4));
+        }
+
+        .character-name {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255,215,0,0.6);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .character-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 5px 8px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 5px;
+            flex: 1;
+            margin: 0 3px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #daa520;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+
+        .hp-bar {
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5));
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px solid #8b4513;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff3333, #ff6666, #ff9999);
+            transition: width 0.5s ease;
+            box-shadow: 0 0 15px rgba(255,68,68,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hp-fill::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: hpShine 2s infinite;
+        }
+
+        @keyframes hpShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 45px;
+            font-size: 1.3em;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,215,0,0.5), transparent);
+            transition: width 0.5s, height 0.5s;
+            transform: translate(-50%, -50%);
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(255,215,0,0.4);
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            text-shadow: 0 0 15px rgba(255,215,0,0.8);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.6em;
+            color: #ffd700;
+            text-shadow: 0 0 25px rgba(255,215,0,0.6);
+            min-height: 80px;
+            animation: fadeIn 0.5s ease;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .damage-number {
+            position: absolute;
+            color: #ff4444;
+            font-size: 3em;
+            font-weight: bold;
+            animation: damageFloat 1.5s ease-out forwards;
+            pointer-events: none;
+            text-shadow:
+                0 0 20px rgba(255,68,68,0.8),
+                0 0 40px rgba(255,0,0,0.5);
+            font-family: 'Cinzel', serif;
+            z-index: 1000;
+        }
+
+        @keyframes damageFloat {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(-20px) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-80px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .victory-message {
+            font-size: 3.5em;
+            color: #ffd700;
+            text-align: center;
+            animation: victoryPulse 1s ease infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes victoryPulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 30px rgba(255,215,0,0.8);
+            }
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 50px rgba(255,215,0,1);
+            }
+        }
+
+        .skill-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .skill-flash {
+            animation: skillFlash 0.8s ease;
+        }
+
+        @keyframes skillFlash {
+            0% { background: transparent; }
+            50% { background: radial-gradient(circle, rgba(255,215,0,0.6), transparent); }
+            100% { background: transparent; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                align-items: flex-start;
+                min-height: auto;
+            }
+
+            .game-container {
+                width: 100%;
+                padding: 15px;
+                margin: 0;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+
+            .game-board {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+                letter-spacing: 2px;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                font-size: 1em;
+                letter-spacing: 2px;
+            }
+
+            .battle-area {
+                min-height: 200px;
+                padding: 15px;
+            }
+
+            .character-portrait {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 10px;
+            }
+
+            .character-card {
+                padding: 10px;
+                margin: 5px 0;
+            }
+
+            .character-name {
+                font-size: 1.1em;
+            }
+
+            .character-stats {
+                margin-top: 8px;
+            }
+
+            .stat {
+                padding: 3px 5px;
+                margin: 0 1px;
+            }
+
+            .stat-label {
+                font-size: 0.7em;
+            }
+
+            .stat-value {
+                font-size: 1.1em;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+                width: 100%;
+                max-width: 250px;
+                letter-spacing: 2px;
+            }
+
+            .message {
+                font-size: 1.2em;
+                padding: 15px;
+                min-height: 60px;
+                letter-spacing: 1px;
+            }
+
+            .damage-number {
+                font-size: 2em;
+            }
+
+            .victory-message {
+                font-size: 2.5em;
+            }
+
+            .player-area, .enemy-area {
+                padding: 15px;
+            }
+
+            .player-area h2, .enemy-area h2 {
+                font-size: 1.1em;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 2px;
+            }
+
+            .game-container {
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+                letter-spacing: 1px;
+            }
+
+            .character-portrait {
+                width: 60px;
+                height: 60px;
+            }
+
+            .character-name {
+                font-size: 1em;
+            }
+
+            .stat-value {
+                font-size: 1em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                letter-spacing: 1px;
+            }
+
+            .message {
+                font-size: 1em;
+                padding: 10px;
+            }
+
+            .battle-area {
+                min-height: 150px;
+                padding: 10px;
+            }
+
+            .damage-number {
+                font-size: 1.5em;
+            }
+
+            .victory-message {
+                font-size: 2em;
+            }
+        }
+
+        /* Prevent zoom on input focus for iOS */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            select, textarea, input[type="text"], input[type="password"],
+            input[type="datetime"], input[type="datetime-local"],
+            input[type="date"], input[type="month"], input[type="time"],
+            input[type="week"], input[type="number"], input[type="email"],
+            input[type="url"], input[type="search"], input[type="tel"],
+            input[type="color"] {
+                font-size: 16px;
+            }
+        }
+
+        /* Performance optimizations for mobile */
+        * {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            perspective: 1000;
+        }
+
+        .character-card, .battle-area, button {
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>Three Kingdoms</h1>
+            <div class="subtitle">Legends of Ancient Heroes</div>
+        </div>
+
+        <div class="game-board">
+            <div class="player-area" id="playerArea">
+                <h2 style="text-align: center; margin-bottom: 15px; color: #ffd700; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 2px;">Your Forces</h2>
+                <div id="playerCards"></div>
+            </div>
+
+            <div class="battle-area" id="battleArea">
+                <div class="skill-effect" id="skillEffect"></div>
+                <div class="message" id="gameMessage">Choose your legendary hero to begin the battle!</div>
+            </div>
+
+            <div class="enemy-area" id="enemyArea">
+                <h2 style="text-align: center; margin-bottom: 15px; color: #ffd700; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 2px;">Enemy Forces</h2>
+                <div id="enemyCards"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="startBattle()" id="battleBtn">Deploy Forces</button>
+            <button onclick="useSkill()" id="skillBtn" style="display: none;">Ultimate Skill</button>
+            <button onclick="resetGame()">New Battle</button>
+        </div>
+    </div>
+
+    <script>
+        // Three Kingdoms Characters Database with image URLs
+        const characters = {
+            shu: [
+                {
+                    name: 'Liu Bei',
+                    image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=400&fit=crop',
+                    atk: 75,
+                    def: 85,
+                    hp: 120,
+                    maxHp: 120,
+                    skill: 'Benevolent Rule',
+                    faction: 'Shu',
+                    description: 'The virtuous leader of Shu'
+                },
+                {
+                    name: 'Guan Yu',
+                    image: 'https://images.unsplash.com/photo-1611601679655-7c8bc197f0c6?w=400&h=400&fit=crop',
+                    atk: 95,
+                    def: 80,
+                    hp: 110,
+                    maxHp: 110,
+                    skill: 'Green Dragon Strike',
+                    faction: 'Shu',
+                    description: 'The God of War'
+                },
+                {
+                    name: 'Zhang Fei',
+                    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc27?w=400&h=400&fit=crop',
+                    atk: 90,
+                    def: 70,
+                    hp: 115,
+                    maxHp: 115,
+                    skill: 'Roaring Tiger',
+                    faction: 'Shu',
+                    description: 'The fierce warrior'
+                },
+                {
+                    name: 'Zhuge Liang',
+                    image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=400&h=400&fit=crop',
+                    atk: 60,
+                    def: 70,
+                    hp: 90,
+                    maxHp: 90,
+                    skill: 'Empty Fort Strategy',
+                    faction: 'Shu',
+                    description: 'The Sleeping Dragon'
+                },
+                {
+                    name: 'Zhao Yun',
+                    image: 'https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?w=400&h=400&fit=crop',
+                    atk: 85,
+                    def: 90,
+                    hp: 105,
+                    maxHp: 105,
+                    skill: 'Dragon Courage',
+                    faction: 'Shu',
+                    description: 'The young dragon'
+                }
+            ],
+            wei: [
+                {
+                    name: 'Cao Cao',
+                    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop',
+                    atk: 80,
+                    def: 85,
+                    hp: 115,
+                    maxHp: 115,
+                    skill: 'Ambition of Heroes',
+                    faction: 'Wei',
+                    description: 'The ambitious warlord'
+                },
+                {
+                    name: 'Sima Yi',
+                    image: 'https://images.unsplash.com/photo-1614583224978-f05ce51ef5fa?w=400&h=400&fit=crop',
+                    atk: 70,
+                    def: 75,
+                    hp: 95,
+                    maxHp: 95,
+                    skill: 'Eagle Eye',
+                    faction: 'Wei',
+                    description: 'The cunning strategist'
+                },
+                {
+                    name: 'Xu Chu',
+                    image: 'https://images.unsplash.com/photo-1589571894960-20bbe2828d0a?w=400&h=400&fit=crop',
+                    atk: 93,
+                    def: 85,
+                    hp: 125,
+                    maxHp: 125,
+                    skill: 'Tiger Guard',
+                    faction: 'Wei',
+                    description: 'The loyal bodyguard'
+                },
+                {
+                    name: 'Zhang Liao',
+                    image: 'https://images.unsplash.com/photo-1568834381308-4b4af438c47c?w=400&h=400&fit=crop',
+                    atk: 88,
+                    def: 82,
+                    hp: 108,
+                    maxHp: 108,
+                    skill: 'Mighty Charge',
+                    faction: 'Wei',
+                    description: 'The fearless general'
+                },
+                {
+                    name: 'Dian Wei',
+                    image: 'https://images.unsplash.com/photo-1588175996685-a40693ee1087?w=400&h=400&fit=crop',
+                    atk: 92,
+                    def: 88,
+                    hp: 120,
+                    maxHp: 120,
+                    skill: 'Ancient Evil',
+                    faction: 'Wei',
+                    description: 'The ancient warrior'
+                }
+            ],
+            wu: [
+                {
+                    name: 'Sun Quan',
+                    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+                    atk: 70,
+                    def: 80,
+                    hp: 110,
+                    maxHp: 110,
+                    skill: 'Imperial Decree',
+                    faction: 'Wu',
+                    description: 'Emperor of Wu'
+                },
+                {
+                    name: 'Zhou Yu',
+                    image: 'https://images.unsplash.com/photo-1590086782792-42dd2350140d?w=400&h=400&fit=crop',
+                    atk: 75,
+                    def: 70,
+                    hp: 95,
+                    maxHp: 95,
+                    skill: 'Fire Attack',
+                    faction: 'Wu',
+                    description: 'The beautiful strategist'
+                },
+                {
+                    name: 'Lu Meng',
+                    image: 'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?w=400&h=400&fit=crop',
+                    atk: 82,
+                    def: 78,
+                    hp: 105,
+                    maxHp: 105,
+                    skill: 'Self Discipline',
+                    faction: 'Wu',
+                    description: 'The scholar general'
+                },
+                {
+                    name: 'Gan Ning',
+                    image: 'https://images.unsplash.com/photo-1615109398623-88346a601842?w=400&h=400&fit=crop',
+                    atk: 86,
+                    def: 75,
+                    hp: 100,
+                    maxHp: 100,
+                    skill: 'Surprise Raid',
+                    faction: 'Wu',
+                    description: 'The pirate warrior'
+                },
+                {
+                    name: 'Taishi Ci',
+                    image: 'https://images.unsplash.com/photo-1609107212535-0e0ea56eea96?w=400&h=400&fit=crop',
+                    atk: 88,
+                    def: 76,
+                    hp: 108,
+                    maxHp: 108,
+                    skill: 'Heavenly Justice',
+                    faction: 'Wu',
+                    description: 'The righteous warrior'
+                }
+            ],
+            other: [
+                {
+                    name: 'Lu Bu',
+                    image: 'https://images.unsplash.com/photo-1618886487325-f665032b6352?w=400&h=400&fit=crop',
+                    atk: 100,
+                    def: 65,
+                    hp: 100,
+                    maxHp: 100,
+                    skill: 'Unmatched Warrior',
+                    faction: 'Other',
+                    description: 'The mightiest warrior'
+                },
+                {
+                    name: 'Diao Chan',
+                    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop',
+                    atk: 50,
+                    def: 60,
+                    hp: 80,
+                    maxHp: 80,
+                    skill: 'Beauty Trap',
+                    faction: 'Other',
+                    description: 'The beautiful dancer'
+                },
+                {
+                    name: 'Dong Zhuo',
+                    image: 'https://images.unsplash.com/photo-1572804013427-4d7ca7268217?w=400&h=400&fit=crop',
+                    atk: 85,
+                    def: 90,
+                    hp: 130,
+                    maxHp: 130,
+                    skill: 'Tyrant\'s Rule',
+                    faction: 'Other',
+                    description: 'The cruel tyrant'
+                },
+                {
+                    name: 'Yuan Shao',
+                    image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=400&fit=crop',
+                    atk: 78,
+                    def: 82,
+                    hp: 112,
+                    maxHp: 112,
+                    skill: 'Noble Blood',
+                    faction: 'Other',
+                    description: 'The noble lord'
+                },
+                {
+                    name: 'Ma Chao',
+                    image: 'https://images.unsplash.com/photo-1548372290-8d01b6c8e78c?w=400&h=400&fit=crop',
+                    atk: 89,
+                    def: 72,
+                    hp: 102,
+                    maxHp: 102,
+                    skill: 'Cavalry Charge',
+                    faction: 'Other',
+                    description: 'The splendid warrior'
+                }
+            ]
+        };
+
+        let gameState = {
+            playerCharacter: null,
+            enemyCharacter: null,
+            playerTurn: true,
+            battleActive: false,
+            skillCooldown: 0
+        };
+
+        function getAllCharacters() {
+            return [...characters.shu, ...characters.wei, ...characters.wu, ...characters.other];
+        }
+
+        function createCharacterCard(character, isPlayer = true) {
+            const card = document.createElement('div');
+            card.className = 'character-card';
+            card.innerHTML = `
+                <div class="character-portrait" style="background-image: url('${character.image}')"></div>
+                <div class="character-name">${character.name}</div>
+                <div style="font-size: 0.9em; color: #daa520; text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">${character.faction}</div>
+                <div class="character-stats">
+                    <div class="stat">
+                        <span class="stat-label">ATK</span>
+                        <span class="stat-value">${character.atk}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">DEF</span>
+                        <span class="stat-value">${character.def}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">HP</span>
+                        <span class="stat-value">${character.hp}</span>
+                    </div>
+                </div>
+                <div class="hp-bar">
+                    <div class="hp-fill" style="width: ${(character.hp / character.maxHp) * 100}%"></div>
+                </div>
+                <div style="text-align: center; margin-top: 8px; font-size: 0.9em; color: #ff9966; text-transform: uppercase; letter-spacing: 1px;">
+                    Skill: ${character.skill}
+                </div>
+            `;
+
+            if (isPlayer && !gameState.battleActive) {
+                card.onclick = () => selectCharacter(character, true);
+            }
+
+            return card;
+        }
+
+        function selectCharacter(character, isPlayer) {
+            if (gameState.battleActive) return;
+
+            if (isPlayer) {
+                gameState.playerCharacter = {...character};
+                document.getElementById('playerCards').innerHTML = '';
+                document.getElementById('playerCards').appendChild(createCharacterCard(gameState.playerCharacter));
+
+                // Auto-select enemy
+                const allChars = getAllCharacters();
+                const randomEnemy = allChars[Math.floor(Math.random() * allChars.length)];
+                gameState.enemyCharacter = {...randomEnemy};
+                document.getElementById('enemyCards').innerHTML = '';
+                document.getElementById('enemyCards').appendChild(createCharacterCard(gameState.enemyCharacter, false));
+
+                updateMessage(`${gameState.playerCharacter.name} VS ${gameState.enemyCharacter.name} - Prepare for Battle!`);
+                document.getElementById('battleBtn').disabled = false;
+            }
+        }
+
+        function startBattle() {
+            if (!gameState.playerCharacter || !gameState.enemyCharacter) {
+                updateMessage('Choose your hero before deploying forces!');
+                return;
+            }
+
+            gameState.battleActive = true;
+            gameState.playerTurn = true;
+            document.getElementById('battleBtn').textContent = 'Attack';
+            document.getElementById('battleBtn').onclick = playerAttack;
+            document.getElementById('skillBtn').style.display = 'inline-block';
+
+            updateMessage(`Battle Begins! ${gameState.playerCharacter.name}'s Turn`);
+        }
+
+        function playerAttack() {
+            if (!gameState.battleActive || !gameState.playerTurn) return;
+
+            const damage = calculateDamage(gameState.playerCharacter, gameState.enemyCharacter);
+            gameState.enemyCharacter.hp -= damage;
+
+            showDamage(damage, false);
+            updateCharacterDisplay();
+
+            if (gameState.enemyCharacter.hp <= 0) {
+                endBattle(true);
+                return;
+            }
+
+            gameState.playerTurn = false;
+            updateMessage(`${gameState.playerCharacter.name} deals ${damage} damage!`);
+
+            setTimeout(enemyAttack, 1500);
+        }
+
+        function enemyAttack() {
+            if (!gameState.battleActive) return;
+
+            const damage = calculateDamage(gameState.enemyCharacter, gameState.playerCharacter);
+            gameState.playerCharacter.hp -= damage;
+
+            showDamage(damage, true);
+            updateCharacterDisplay();
+
+            if (gameState.playerCharacter.hp <= 0) {
+                endBattle(false);
+                return;
+            }
+
+            gameState.playerTurn = true;
+            updateMessage(`${gameState.enemyCharacter.name} deals ${damage} damage!`);
+
+            if (gameState.skillCooldown > 0) {
+                gameState.skillCooldown--;
+                if (gameState.skillCooldown === 0) {
+                    document.getElementById('skillBtn').disabled = false;
+                    document.getElementById('skillBtn').textContent = 'Ultimate Skill';
+                }
+            }
+        }
+
+        function useSkill() {
+            if (!gameState.battleActive || !gameState.playerTurn || gameState.skillCooldown > 0) return;
+
+            // Skill effect animation
+            const skillEffect = document.getElementById('skillEffect');
+            skillEffect.classList.add('skill-flash');
+            setTimeout(() => skillEffect.classList.remove('skill-flash'), 800);
+
+            const skillDamage = Math.floor(gameState.playerCharacter.atk * 2.0);
+            gameState.enemyCharacter.hp -= skillDamage;
+
+            showDamage(skillDamage, false);
+            updateCharacterDisplay();
+
+            updateMessage(`${gameState.playerCharacter.name} uses ${gameState.playerCharacter.skill}! Deals ${skillDamage} damage!`);
+
+            gameState.skillCooldown = 3;
+            document.getElementById('skillBtn').disabled = true;
+            document.getElementById('skillBtn').textContent = `Cooldown (${gameState.skillCooldown})`;
+
+            if (gameState.enemyCharacter.hp <= 0) {
+                endBattle(true);
+                return;
+            }
+
+            gameState.playerTurn = false;
+            setTimeout(enemyAttack, 1500);
+        }
+
+        function calculateDamage(attacker, defender) {
+            const baseDamage = attacker.atk;
+            const defense = defender.def * 0.5;
+            const randomFactor = 0.8 + Math.random() * 0.4;
+            const damage = Math.max(10, Math.floor((baseDamage - defense) * randomFactor));
+            return damage;
+        }
+
+        function showDamage(damage, isPlayer) {
+            const battleArea = document.getElementById('battleArea');
+            const dmgElement = document.createElement('div');
+            dmgElement.className = 'damage-number';
+            dmgElement.textContent = `-${damage}`;
+            dmgElement.style.left = isPlayer ? '25%' : '75%';
+            dmgElement.style.top = '50%';
+            battleArea.appendChild(dmgElement);
+
+            setTimeout(() => dmgElement.remove(), 1500);
+        }
+
+        function updateCharacterDisplay() {
+            document.getElementById('playerCards').innerHTML = '';
+            document.getElementById('playerCards').appendChild(createCharacterCard(gameState.playerCharacter));
+
+            document.getElementById('enemyCards').innerHTML = '';
+            document.getElementById('enemyCards').appendChild(createCharacterCard(gameState.enemyCharacter, false));
+        }
+
+        function updateMessage(msg) {
+            const messageEl = document.getElementById('gameMessage');
+            messageEl.style.animation = 'none';
+            setTimeout(() => {
+                messageEl.textContent = msg;
+                messageEl.style.animation = 'fadeIn 0.5s ease';
+            }, 10);
+        }
+
+        function endBattle(playerWon) {
+            gameState.battleActive = false;
+
+            if (playerWon) {
+                updateMessage(`VICTORY! ${gameState.playerCharacter.name} has defeated ${gameState.enemyCharacter.name}!`);
+                document.getElementById('gameMessage').className = 'message victory-message';
+            } else {
+                updateMessage(`DEFEAT! ${gameState.enemyCharacter.name} has defeated ${gameState.playerCharacter.name}!`);
+            }
+
+            document.getElementById('battleBtn').textContent = 'Deploy Forces';
+            document.getElementById('battleBtn').onclick = startBattle;
+            document.getElementById('battleBtn').disabled = true;
+            document.getElementById('skillBtn').style.display = 'none';
+        }
+
+        function resetGame() {
+            gameState = {
+                playerCharacter: null,
+                enemyCharacter: null,
+                playerTurn: true,
+                battleActive: false,
+                skillCooldown: 0
+            };
+
+            initGame();
+            document.getElementById('gameMessage').className = 'message';
+            document.getElementById('battleBtn').textContent = 'Deploy Forces';
+            document.getElementById('battleBtn').onclick = startBattle;
+            document.getElementById('battleBtn').disabled = true;
+            document.getElementById('skillBtn').style.display = 'none';
+        }
+
+        function initGame() {
+            // Display available characters for selection
+            const playerCards = document.getElementById('playerCards');
+            playerCards.innerHTML = '';
+
+            // Show 6 random characters for selection
+            const allChars = getAllCharacters();
+            const shuffled = allChars.sort(() => 0.5 - Math.random());
+            const selectedChars = shuffled.slice(0, 6);
+
+            selectedChars.forEach(char => {
+                const card = createCharacterCard(char, true);
+                playerCards.appendChild(card);
+            });
+
+            document.getElementById('enemyCards').innerHTML = '<div style="text-align: center; color: #daa520; padding: 50px; font-family: \'Cinzel\', serif; font-size: 1.2em; text-transform: uppercase; letter-spacing: 2px;">Awaiting Enemy...</div>';
+            updateMessage('Choose your legendary hero to begin the battle!');
+        }
+
+        // Initialize game on load
+        window.onload = initGame;
+    </script>
+</body>
+</html>

@@ -135,6 +135,21 @@ jobs:
         echo "Build Date: $(date)" > build-info.txt
         echo "Commit SHA: ${{ github.sha }}" >> build-info.txt
         echo "Branch: ${{ github.ref_name }}" >> build-info.txt
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+
+    - name: Commit and push changes
+      run: |
+        git add .
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Auto-update: format code and build artifacts [skip ci]"
+          git push origin ${{ github.ref_name }}
+        fi
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
