@@ -139,20 +139,57 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+
+            .game-container {
+                padding: 0;
+            }
+
             #gameCanvas {
-                width: 95vw;
-                height: 95vw;
-                max-width: 400px;
-                max-height: 400px;
+                width: 90vw;
+                height: 90vw;
+                max-width: 350px;
+                max-height: 350px;
+                border: 2px solid #333;
             }
 
             .title {
                 font-size: 32px;
+                margin: 10px 0;
             }
 
             .game-stats {
                 font-size: 16px;
                 padding: 5px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #gameCanvas {
+                width: 95vw;
+                height: 95vw;
+                max-width: 300px;
+                max-height: 300px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .game-stats {
+                font-size: 14px;
+                padding: 3px 8px;
+            }
+
+            .game-over {
+                padding: 20px;
+            }
+
+            .game-over h2 {
+                font-size: 24px;
             }
         }
     </style>

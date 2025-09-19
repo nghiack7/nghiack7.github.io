@@ -156,22 +156,50 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+
             .game-container {
                 flex-direction: column;
                 gap: 15px;
+                padding: 0;
             }
 
             .side-panel {
                 width: 100%;
                 max-width: 300px;
+                margin: 0 auto;
             }
 
             .title {
                 font-size: 32px;
+                margin: 10px 0;
             }
 
             #gameCanvas {
-                max-width: 90vw;
+                max-width: 85vw;
+                border: 2px solid #333;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 28px;
+            }
+
+            #gameCanvas {
+                max-width: 95vw;
+            }
+
+            .side-panel {
+                max-width: 95vw;
+            }
+
+            .score-info {
+                font-size: 14px;
+                padding: 5px 10px;
             }
         }
     </style>
