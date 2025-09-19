@@ -20,20 +20,32 @@ jobs:
   # Build and Test Job
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
-    
+
     - name: Install dependencies
       run: |
-        npm init -y
+        npm install
+
+    - name: Build with Vite
+      run: |
+        npm run build
+
+    - name: Copy game files to dist
+      run: |
+        mkdir -p dist/games/2048
+        cp -r games/2048/* dist/games/2048/
+
+    - name: Install additional dev dependencies
+      run: |
         npm install --save-dev html-validate stylelint stylelint-config-standard prettier lighthouse-ci @lhci/cli
         
     - name: Create validation config files
@@ -129,8 +141,7 @@ jobs:
       with:
         name: website-build
         path: |
-          index.html
-          assets/
+          dist/
           build-info.txt
         retention-days: 30
 
@@ -157,7 +168,7 @@ jobs:
     - name: Upload to GitHub Pages
       uses: actions/upload-pages-artifact@v2
       with:
-        path: '.'
+        path: './dist'
         
     - name: Deploy to GitHub Pages
       id: deployment
