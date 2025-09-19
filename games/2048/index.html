@@ -348,6 +348,11 @@
                 this.bestScore = localStorage.getItem('best-score') || 0;
 
                 this.init();
+
+                // Add resize listener for responsive updates
+                window.addEventListener('resize', () => {
+                    this.updateDisplay();
+                });
             }
 
             init() {
@@ -578,6 +583,17 @@
                 }
             }
 
+            getTileSize() {
+                const screenWidth = window.innerWidth;
+                if (screenWidth <= 380) {
+                    return { size: 45, margin: 2.5, spacing: 50 };
+                } else if (screenWidth <= 500) {
+                    return { size: 50, margin: 3, spacing: 56 };
+                } else {
+                    return { size: 70, margin: 5, spacing: 80 };
+                }
+            }
+
             updateDisplay() {
                 // Update score
                 document.getElementById('score').textContent = this.score;
@@ -593,6 +609,9 @@
                 const container = document.getElementById('tile-container');
                 container.innerHTML = '';
 
+                // Get responsive tile sizing
+                const { spacing, margin } = this.getTileSize();
+
                 // Create tiles
                 for (let i = 0; i < 4; i++) {
                     for (let j = 0; j < 4; j++) {
@@ -601,8 +620,8 @@
                             const tile = document.createElement('div');
                             tile.className = `tile tile-${value}`;
                             tile.textContent = value;
-                            tile.style.left = `${j * 80 + 5}px`;
-                            tile.style.top = `${i * 80 + 5}px`;
+                            tile.style.left = `${j * spacing + margin}px`;
+                            tile.style.top = `${i * spacing + margin}px`;
                             container.appendChild(tile);
                         }
                     }
