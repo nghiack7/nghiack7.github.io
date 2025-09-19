@@ -173,8 +173,9 @@
 
         <div class="controls">
             <p><strong>Controls:</strong></p>
-            <p>WASD - Move | Mouse - Aim | Click - Shoot | R - Restart</p>
-            <p>Touch: Drag to move, tap to shoot</p>
+            <p>WASD - Move | Space - Toggle Auto-Attack | R - Restart</p>
+            <p>Touch: Drag to move, tap to toggle auto-attack</p>
+            <p><span id="autoAttackStatusTank" style="color: #00ff00;">🔫 AUTO-ATTACK: ON</span></p>
         </div>
 
         <div class="game-over" id="gameOver">
@@ -215,6 +216,8 @@
 
                 this.lastShot = 0;
                 this.shootCooldown = 300;
+                this.autoAttack = true;
+                this.autoAttackInterval = 400; // Auto shoot every 400ms
                 this.enemySpawnTimer = 0;
 
                 this.init();
@@ -246,6 +249,10 @@
                     if (e.key.toLowerCase() === 'r') {
                         this.restart();
                     }
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                        this.autoAttack = !this.autoAttack; // Toggle auto-attack with spacebar
+                    }
                 });
 
                 document.addEventListener('keyup', (e) => {
@@ -260,7 +267,7 @@
 
                 this.canvas.addEventListener('click', (e) => {
                     e.preventDefault();
-                    this.shoot();
+                    this.autoAttack = !this.autoAttack; // Toggle auto-attack on click
                 });
 
                 // Touch controls
@@ -297,7 +304,7 @@
                 this.canvas.addEventListener('touchend', (e) => {
                     e.preventDefault();
                     isDragging = false;
-                    this.shoot();
+                    this.autoAttack = !this.autoAttack; // Toggle auto-attack on touch end
                 });
             }
 
@@ -322,8 +329,54 @@
                 this.lastShot = now;
             }
 
+            autoShoot() {
+                const now = Date.now();
+                if (now - this.lastShot < this.shootCooldown) return;
+
+                // Find the nearest enemy
+                let nearestEnemy = null;
+                let nearestDistance = Infinity;
+
+                for (const enemy of this.enemies) {
+                    const dx = enemy.x + enemy.width / 2 - (this.player.x + this.player.width / 2);
+                    const dy = enemy.y + enemy.height / 2 - (this.player.y + this.player.height / 2);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestEnemy = enemy;
+                    }
+                }
+
+                if (nearestEnemy) {
+                    const dx = nearestEnemy.x + nearestEnemy.width / 2 - (this.player.x + this.player.width / 2);
+                    const dy = nearestEnemy.y + nearestEnemy.height / 2 - (this.player.y + this.player.height / 2);
+                    const angle = Math.atan2(dy, dx);
+
+                    this.bullets.push({
+                        x: this.player.x + this.player.width / 2,
+                        y: this.player.y + this.player.height / 2,
+                        vx: Math.cos(angle) * 8,
+                        vy: Math.sin(angle) * 8,
+                        size: 3,
+                        color: '#FFD700',
+                        damage: 25
+                    });
+
+                    this.lastShot = now;
+                }
+            }
+
             update() {
                 if (!this.gameRunning) return;
+
+                // Auto-attack logic
+                if (this.autoAttack && this.enemies.length > 0) {
+                    const now = Date.now();
+                    if (now - this.lastShot >= this.autoAttackInterval) {
+                        this.autoShoot();
+                    }
+                }
 
                 this.updatePlayer();
                 this.updateBullets();
@@ -726,6 +779,13 @@
                 document.getElementById('score').textContent = this.score;
                 document.getElementById('health').textContent = this.player.health;
                 document.getElementById('enemyCount').textContent = this.enemies.length;
+
+                // Update auto-attack status
+                const autoAttackElement = document.getElementById('autoAttackStatusTank');
+                if (autoAttackElement) {
+                    autoAttackElement.textContent = this.autoAttack ? '🔫 AUTO-ATTACK: ON' : '🔫 AUTO-ATTACK: OFF';
+                    autoAttackElement.style.color = this.autoAttack ? '#00ff00' : '#ff6666';
+                }
             }
 
             gameOver() {

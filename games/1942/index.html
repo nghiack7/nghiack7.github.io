@@ -238,6 +238,8 @@
                 <div class="stat">Lives: <span class="stat-value" id="lives">3</span></div>
                 <div class="stat">Stage: <span class="stat-value" id="stage">1</span></div>
                 <div class="stat">Loops: <span class="stat-value" id="loops">3</span></div>
+                <div class="stat">Level: <span class="stat-value" id="level">1</span></div>
+                <div class="stat">Weapon: <span class="stat-value" id="weaponLevel">1</span></div>
             </div>
         </div>
 
@@ -245,8 +247,9 @@
 
         <div class="controls">
             <p><strong>Controls:</strong></p>
-            <p>WASD / Arrow Keys - Move | Space - Shoot | L / Enter - Loop Maneuver</p>
-            <p>Mobile: Touch to move, tap to shoot, double-tap for loop</p>
+            <p>WASD / Arrow Keys - Move | Space - Toggle Auto-Attack | L / Enter - Loop Maneuver</p>
+            <p>Mobile: Touch to move, tap to toggle auto-attack, double-tap for loop</p>
+            <p><span id="autoAttackStatus" style="color: #00ff00;">🔫 AUTO-ATTACK: ON</span></p>
         </div>
 
         <div class="game-over" id="gameOver">
@@ -272,6 +275,8 @@
                 this.keys = {};
                 this.lastShot = 0;
                 this.shootCooldown = 150;
+                this.autoAttack = true;
+                this.autoAttackInterval = 200; // Auto shoot every 200ms
 
                 // Player aircraft (P-38 Lightning)
                 this.player = {
@@ -289,6 +294,13 @@
 
                 this.loops = 3;
                 this.maxLoops = 3;
+
+                // Level up system
+                this.level = 1;
+                this.experience = 0;
+                this.expToNextLevel = 1000;
+                this.weaponLevel = 1;
+                this.maxWeaponLevel = 5;
 
                 this.bullets = [];
                 this.enemies = [];
@@ -315,7 +327,7 @@
 
                     if (e.key === ' ') {
                         e.preventDefault();
-                        this.shoot();
+                        this.autoAttack = !this.autoAttack; // Toggle auto-attack with spacebar
                     }
 
                     if (e.key.toLowerCase() === 'l' || e.key === 'Enter') {
@@ -371,7 +383,7 @@
                     const touchDuration = Date.now() - touchStartTime;
 
                     if (touchDuration < 200) {
-                        this.shoot();
+                        this.autoAttack = !this.autoAttack; // Toggle auto-attack on tap
                     }
                 });
             }
@@ -391,32 +403,141 @@
                 const now = Date.now();
                 if (now - this.lastShot < this.shootCooldown || this.player.looping) return;
 
-                // Twin guns
-                this.bullets.push({
-                    x: this.player.x + 8,
-                    y: this.player.y,
-                    vx: 0,
-                    vy: -8,
-                    size: 3,
-                    color: '#FFFF00',
-                    damage: 1
-                });
+                const baseDamage = this.weaponLevel;
+                const bulletSpeed = 8 + this.weaponLevel;
 
-                this.bullets.push({
-                    x: this.player.x + 22,
-                    y: this.player.y,
-                    vx: 0,
-                    vy: -8,
-                    size: 3,
-                    color: '#FFFF00',
-                    damage: 1
-                });
+                switch (this.weaponLevel) {
+                    case 1: // Basic twin guns
+                        this.bullets.push({
+                            x: this.player.x + 8,
+                            y: this.player.y,
+                            vx: 0,
+                            vy: -bulletSpeed,
+                            size: 3,
+                            color: '#FFFF00',
+                            damage: baseDamage
+                        });
+                        this.bullets.push({
+                            x: this.player.x + 22,
+                            y: this.player.y,
+                            vx: 0,
+                            vy: -bulletSpeed,
+                            size: 3,
+                            color: '#FFFF00',
+                            damage: baseDamage
+                        });
+                        break;
+
+                    case 2: // Triple shot
+                        for (let i = 0; i < 3; i++) {
+                            this.bullets.push({
+                                x: this.player.x + 10 + i * 5,
+                                y: this.player.y,
+                                vx: (i - 1) * 1,
+                                vy: -bulletSpeed,
+                                size: 3,
+                                color: '#00FF00',
+                                damage: baseDamage
+                            });
+                        }
+                        break;
+
+                    case 3: // Spread shot (like Contra)
+                        for (let i = 0; i < 5; i++) {
+                            const angle = (i - 2) * 0.3;
+                            this.bullets.push({
+                                x: this.player.x + 15,
+                                y: this.player.y,
+                                vx: Math.sin(angle) * bulletSpeed * 0.5,
+                                vy: -Math.cos(angle) * bulletSpeed,
+                                size: 4,
+                                color: '#FF6600',
+                                damage: baseDamage
+                            });
+                        }
+                        break;
+
+                    case 4: // Rapid fire with side shots
+                        // Main guns
+                        this.bullets.push({
+                            x: this.player.x + 8,
+                            y: this.player.y,
+                            vx: 0,
+                            vy: -bulletSpeed,
+                            size: 4,
+                            color: '#FF0000',
+                            damage: baseDamage
+                        });
+                        this.bullets.push({
+                            x: this.player.x + 22,
+                            y: this.player.y,
+                            vx: 0,
+                            vy: -bulletSpeed,
+                            size: 4,
+                            color: '#FF0000',
+                            damage: baseDamage
+                        });
+                        // Side shots
+                        this.bullets.push({
+                            x: this.player.x + 15,
+                            y: this.player.y + 10,
+                            vx: -3,
+                            vy: -6,
+                            size: 3,
+                            color: '#FF4444',
+                            damage: baseDamage
+                        });
+                        this.bullets.push({
+                            x: this.player.x + 15,
+                            y: this.player.y + 10,
+                            vx: 3,
+                            vy: -6,
+                            size: 3,
+                            color: '#FF4444',
+                            damage: baseDamage
+                        });
+                        break;
+
+                    case 5: // Maximum firepower
+                        // Central beam
+                        this.bullets.push({
+                            x: this.player.x + 15,
+                            y: this.player.y,
+                            vx: 0,
+                            vy: -bulletSpeed * 1.5,
+                            size: 6,
+                            color: '#FFFFFF',
+                            damage: baseDamage * 2
+                        });
+                        // Spread pattern
+                        for (let i = 0; i < 8; i++) {
+                            const angle = (i / 8) * Math.PI - Math.PI / 2;
+                            this.bullets.push({
+                                x: this.player.x + 15,
+                                y: this.player.y,
+                                vx: Math.cos(angle) * bulletSpeed * 0.7,
+                                vy: Math.sin(angle) * bulletSpeed * 0.7,
+                                size: 3,
+                                color: '#FF00FF',
+                                damage: baseDamage
+                            });
+                        }
+                        break;
+                }
 
                 this.lastShot = now;
             }
 
             update() {
                 if (!this.gameRunning) return;
+
+                // Auto-attack logic
+                if (this.autoAttack) {
+                    const now = Date.now();
+                    if (now - this.lastShot >= this.autoAttackInterval) {
+                        this.shoot();
+                    }
+                }
 
                 this.updatePlayer();
                 this.updateBullets();
@@ -674,7 +795,11 @@
 
                             if (enemy.health <= 0) {
                                 this.score += enemy.points;
+                                this.experience += enemy.points / 2; // Gain experience
                                 this.createExplosion(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2);
+
+                                // Check for level up
+                                this.checkLevelUp();
 
                                 // Chance to drop power-up
                                 if (Math.random() < 0.1) {
@@ -743,8 +868,42 @@
                 }
             }
 
+            checkLevelUp() {
+                if (this.experience >= this.expToNextLevel) {
+                    this.level++;
+                    this.experience = 0;
+                    this.expToNextLevel = this.level * 1000;
+
+                    // Upgrade weapon every 2 levels
+                    if (this.level % 2 === 0 && this.weaponLevel < this.maxWeaponLevel) {
+                        this.weaponLevel++;
+                        this.showLevelUpMessage(`WEAPON UPGRADE! Level ${this.weaponLevel}`);
+                    } else {
+                        this.showLevelUpMessage(`LEVEL UP! Level ${this.level}`);
+                    }
+
+                    // Bonus effects
+                    this.autoAttackInterval = Math.max(100, this.autoAttackInterval - 10); // Faster shooting
+                    this.player.speed = Math.min(6, this.player.speed + 0.1); // Slightly faster movement
+                }
+            }
+
+            showLevelUpMessage(message) {
+                // Create floating text effect
+                this.particles.push({
+                    x: this.canvas.width / 2,
+                    y: this.canvas.height / 2,
+                    vx: 0,
+                    vy: -2,
+                    life: 120,
+                    color: '#FFFF00',
+                    text: message,
+                    size: 24
+                });
+            }
+
             dropPowerUp(x, y) {
-                const types = ['extraLoop', 'life', 'points'];
+                const types = ['extraLoop', 'life', 'points', 'weaponUpgrade'];
                 const type = types[Math.floor(Math.random() * types.length)];
 
                 this.powerUps.push({
@@ -753,7 +912,9 @@
                     width: 20,
                     height: 20,
                     type: type,
-                    color: type === 'extraLoop' ? '#FF0000' : type === 'life' ? '#00FF00' : '#FFFF00'
+                    color: type === 'extraLoop' ? '#FF0000' :
+                           type === 'life' ? '#00FF00' :
+                           type === 'weaponUpgrade' ? '#FF00FF' : '#FFFF00'
                 });
             }
 
@@ -767,8 +928,18 @@
                         break;
                     case 'points':
                         this.score += 1000;
+                        this.experience += 500;
+                        break;
+                    case 'weaponUpgrade':
+                        if (this.weaponLevel < this.maxWeaponLevel) {
+                            this.weaponLevel++;
+                            this.showLevelUpMessage(`WEAPON UPGRADE! Level ${this.weaponLevel}`);
+                        } else {
+                            this.score += 2000; // Bonus points if already max level
+                        }
                         break;
                 }
+                this.checkLevelUp();
             }
 
             updateStage() {
@@ -785,6 +956,15 @@
                 document.getElementById('lives').textContent = this.lives;
                 document.getElementById('stage').textContent = this.stage;
                 document.getElementById('loops').textContent = this.loops;
+                document.getElementById('level').textContent = this.level;
+                document.getElementById('weaponLevel').textContent = this.weaponLevel;
+
+                // Update auto-attack status
+                const autoAttackElement = document.getElementById('autoAttackStatus');
+                if (autoAttackElement) {
+                    autoAttackElement.textContent = this.autoAttack ? '🔫 AUTO-ATTACK: ON' : '🔫 AUTO-ATTACK: OFF';
+                    autoAttackElement.style.color = this.autoAttack ? '#00ff00' : '#ff6666';
+                }
             }
 
             render() {
@@ -831,10 +1011,19 @@
 
                 // Draw particles
                 for (const particle of this.particles) {
-                    this.ctx.fillStyle = particle.color;
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-                    this.ctx.fill();
+                    if (particle.text) {
+                        // Level up message
+                        this.ctx.fillStyle = particle.color;
+                        this.ctx.font = `${particle.size}px Arial`;
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(particle.text, particle.x, particle.y);
+                    } else {
+                        // Regular explosion particle
+                        this.ctx.fillStyle = particle.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
                 }
 
                 // Draw power-ups
@@ -845,7 +1034,9 @@
                     this.ctx.fillStyle = '#FFFFFF';
                     this.ctx.font = '12px Arial';
                     this.ctx.textAlign = 'center';
-                    const text = powerUp.type === 'extraLoop' ? 'L' : powerUp.type === 'life' ? '+' : '$';
+                    const text = powerUp.type === 'extraLoop' ? 'L' :
+                                powerUp.type === 'life' ? '+' :
+                                powerUp.type === 'weaponUpgrade' ? 'W' : '$';
                     this.ctx.fillText(text, powerUp.x + powerUp.width / 2, powerUp.y + powerUp.height / 2 + 4);
                 }
             }
@@ -909,8 +1100,14 @@
                 this.lives = 3;
                 this.stage = 1;
                 this.loops = 3;
+                this.level = 1;
+                this.experience = 0;
+                this.expToNextLevel = 1000;
+                this.weaponLevel = 1;
+                this.autoAttackInterval = 200;
                 this.player.x = this.canvas.width / 2 - 15;
                 this.player.y = this.canvas.height - 80;
+                this.player.speed = 4;
                 this.player.looping = false;
                 this.player.invulnerable = false;
                 this.bullets = [];
