@@ -347,6 +347,10 @@
                 this.enemySpawnTimer = 0;
                 this.stageProgress = 0;
                 this.stageLength = 3000;
+                this.gameTime = 0;
+                this.difficultyMultiplier = 1;
+                this.enemyHealthMultiplier = 1;
+                this.enemyDamageMultiplier = 1;
 
                 this.init();
             }
@@ -567,6 +571,10 @@
             update() {
                 if (!this.gameRunning) return;
 
+                // Update game time and difficulty
+                this.gameTime++;
+                this.updateDifficulty();
+
                 // Auto-attack logic
                 if (this.autoAttack) {
                     const now = Date.now();
@@ -591,6 +599,25 @@
                 if (this.scrollOffset >= this.canvas.height) {
                     this.scrollOffset = 0;
                 }
+            }
+
+            updateDifficulty() {
+                // Increase difficulty every 30 seconds (1800 frames at 60fps)
+                const timeInSeconds = Math.floor(this.gameTime / 60);
+
+                // Base difficulty increases every 30 seconds
+                this.difficultyMultiplier = 1 + (timeInSeconds / 30) * 0.2;
+
+                // Enemy health scales with time and stage
+                this.enemyHealthMultiplier = 1 + (timeInSeconds / 20) * 0.3 + (this.stage - 1) * 0.5;
+
+                // Enemy damage scales more slowly to keep game fair
+                this.enemyDamageMultiplier = 1 + (timeInSeconds / 60) * 0.1 + (this.stage - 1) * 0.2;
+
+                // Cap the multipliers to prevent insane difficulty
+                this.difficultyMultiplier = Math.min(this.difficultyMultiplier, 5);
+                this.enemyHealthMultiplier = Math.min(this.enemyHealthMultiplier, 8);
+                this.enemyDamageMultiplier = Math.min(this.enemyDamageMultiplier, 3);
             }
 
             updatePlayer() {
@@ -677,12 +704,14 @@
                                 width: 25,
                                 height: 25,
                                 vx: 0,
-                                vy: 2,
-                                health: 1,
+                                vy: 2 * this.difficultyMultiplier,
+                                health: Math.ceil(1 * this.enemyHealthMultiplier),
+                                maxHealth: Math.ceil(1 * this.enemyHealthMultiplier),
                                 type: 'small',
-                                color: '#00FF00',
+                                color: this.getEnemyColor('small'),
                                 points: 100,
-                                shootTimer: Math.random() * 60
+                                shootTimer: Math.random() * 60,
+                                damage: Math.ceil(1 * this.enemyDamageMultiplier)
                             });
                         }
                         break;
@@ -694,13 +723,15 @@
                                 y: -50 - Math.abs(i - 2) * 20,
                                 width: 25,
                                 height: 25,
-                                vx: (i - 2) * 0.5,
-                                vy: 2,
-                                health: 1,
+                                vx: (i - 2) * 0.5 * this.difficultyMultiplier,
+                                vy: 2 * this.difficultyMultiplier,
+                                health: Math.ceil(1 * this.enemyHealthMultiplier),
+                                maxHealth: Math.ceil(1 * this.enemyHealthMultiplier),
                                 type: 'small',
-                                color: '#00FF00',
+                                color: this.getEnemyColor('small'),
                                 points: 100,
-                                shootTimer: Math.random() * 60
+                                shootTimer: Math.random() * 60,
+                                damage: Math.ceil(1 * this.enemyDamageMultiplier)
                             });
                         }
                         break;
@@ -712,13 +743,15 @@
                             y: 100,
                             width: 30,
                             height: 30,
-                            vx: -side * 3,
-                            vy: 1,
-                            health: 2,
+                            vx: -side * 3 * this.difficultyMultiplier,
+                            vy: 1 * this.difficultyMultiplier,
+                            health: Math.ceil(2 * this.enemyHealthMultiplier),
+                            maxHealth: Math.ceil(2 * this.enemyHealthMultiplier),
                             type: 'medium',
-                            color: '#FF9900',
+                            color: this.getEnemyColor('medium'),
                             points: 300,
-                            shootTimer: 0
+                            shootTimer: 0,
+                            damage: Math.ceil(1 * this.enemyDamageMultiplier)
                         });
                         break;
                 }
@@ -727,21 +760,51 @@
             spawnBossEnemy() {
                 if (this.enemies.filter(e => e.type === 'boss').length > 0) return;
 
+                const bossHealth = Math.ceil(10 * this.enemyHealthMultiplier);
                 this.enemies.push({
                     x: this.canvas.width / 2 - 40,
                     y: -80,
                     width: 80,
                     height: 60,
                     vx: 0,
-                    vy: 1,
-                    health: 10,
-                    maxHealth: 10,
+                    vy: 1 * this.difficultyMultiplier,
+                    health: bossHealth,
+                    maxHealth: bossHealth,
                     type: 'boss',
-                    color: '#FF0000',
+                    color: this.getEnemyColor('boss'),
                     points: 2000,
                     shootTimer: 0,
-                    pattern: 0
+                    pattern: 0,
+                    damage: Math.ceil(2 * this.enemyDamageMultiplier)
                 });
+            }
+
+            getEnemyColor(type) {
+                // Color changes based on difficulty and health multiplier
+                const intensity = Math.min(this.enemyHealthMultiplier, 4);
+
+                switch (type) {
+                    case 'small':
+                        if (intensity < 1.5) return '#00FF00';      // Green (weak)
+                        if (intensity < 2.5) return '#FFFF00';      // Yellow (medium)
+                        if (intensity < 3.5) return '#FF9900';      // Orange (strong)
+                        return '#FF3300';                            // Red (very strong)
+
+                    case 'medium':
+                        if (intensity < 1.5) return '#FF9900';      // Orange (weak)
+                        if (intensity < 2.5) return '#FF6600';      // Red-orange (medium)
+                        if (intensity < 3.5) return '#FF3300';      // Red (strong)
+                        return '#CC0000';                            // Dark red (very strong)
+
+                    case 'boss':
+                        if (intensity < 1.5) return '#FF0000';      // Red (weak)
+                        if (intensity < 2.5) return '#CC0000';      // Dark red (medium)
+                        if (intensity < 3.5) return '#990000';      // Darker red (strong)
+                        return '#660000';                            // Blood red (very strong)
+
+                    default:
+                        return '#FFFFFF';
+                }
             }
 
             updateEnemies() {
@@ -1090,38 +1153,212 @@
                     this.ctx.translate(-this.player.width / 2, -this.player.height / 2);
                 }
 
-                // Draw P-38 Lightning
+                const x = this.player.x;
+                const y = this.player.y;
+
+                // Enhanced P-38 Lightning with better details
+
+                // Main fuselage (center body)
+                this.ctx.fillStyle = '#E0E0E0';
+                this.ctx.fillRect(x + 12, y + 5, 6, 25);
+
+                // Nose cone
+                this.ctx.fillStyle = '#F0F0F0';
+                this.ctx.beginPath();
+                this.ctx.moveTo(x + 15, y);
+                this.ctx.lineTo(x + 12, y + 8);
+                this.ctx.lineTo(x + 18, y + 8);
+                this.ctx.closePath();
+                this.ctx.fill();
+
+                // Wings (more detailed)
+                this.ctx.fillStyle = '#D0D0D0';
+                this.ctx.fillRect(x - 2, y + 12, 34, 10);
+
+                // Wing tips
                 this.ctx.fillStyle = '#C0C0C0';
-                this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
+                this.ctx.fillRect(x - 2, y + 12, 4, 6);
+                this.ctx.fillRect(x + 28, y + 12, 4, 6);
 
-                // Wings
-                this.ctx.fillStyle = '#A0A0A0';
-                this.ctx.fillRect(this.player.x - 5, this.player.y + 10, 40, 8);
+                // Engine nacelles (twin engines)
+                this.ctx.fillStyle = '#B0B0B0';
+                this.ctx.fillRect(x + 3, y - 2, 8, 20);
+                this.ctx.fillRect(x + 19, y - 2, 8, 20);
 
-                // Engines
-                this.ctx.fillStyle = '#808080';
-                this.ctx.fillRect(this.player.x + 5, this.player.y - 5, 6, 15);
-                this.ctx.fillRect(this.player.x + 19, this.player.y - 5, 6, 15);
+                // Engine intakes
+                this.ctx.fillStyle = '#303030';
+                this.ctx.fillRect(x + 4, y - 1, 6, 3);
+                this.ctx.fillRect(x + 20, y - 1, 6, 3);
+
+                // Cockpit
+                this.ctx.fillStyle = '#4A90E2';
+                this.ctx.fillRect(x + 13, y + 8, 4, 6);
+
+                // Weapon level indicator glow
+                if (this.weaponLevel > 1) {
+                    const glowColors = ['', '#00FF00', '#FFFF00', '#FF6600', '#FF0000', '#FF00FF'];
+                    this.ctx.shadowColor = glowColors[this.weaponLevel];
+                    this.ctx.shadowBlur = 10;
+                    this.ctx.strokeStyle = glowColors[this.weaponLevel];
+                    this.ctx.lineWidth = 2;
+                    this.ctx.strokeRect(x - 2, y - 2, 34, 34);
+                    this.ctx.shadowBlur = 0;
+                }
 
                 this.ctx.restore();
             }
 
             drawEnemy(enemy) {
-                this.ctx.fillStyle = enemy.color;
-                this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                const x = enemy.x;
+                const y = enemy.y;
+                const w = enemy.width;
+                const h = enemy.height;
 
-                // Health bar for bosses
-                if (enemy.type === 'boss') {
+                this.ctx.save();
+
+                // Enhanced enemy designs based on type
+                switch (enemy.type) {
+                    case 'small':
+                        // Small demon fighter
+                        this.ctx.fillStyle = enemy.color;
+
+                        // Main body
+                        this.ctx.fillRect(x + w*0.3, y, w*0.4, h*0.8);
+
+                        // Wings
+                        this.ctx.fillRect(x, y + h*0.2, w, h*0.3);
+
+                        // Wing tips (demon horns)
+                        this.ctx.fillStyle = this.darkenColor(enemy.color);
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x, y + h*0.2);
+                        this.ctx.lineTo(x - w*0.2, y + h*0.1);
+                        this.ctx.lineTo(x, y + h*0.4);
+                        this.ctx.fill();
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x + w, y + h*0.2);
+                        this.ctx.lineTo(x + w + w*0.2, y + h*0.1);
+                        this.ctx.lineTo(x + w, y + h*0.4);
+                        this.ctx.fill();
+
+                        // Eyes/lights
+                        this.ctx.fillStyle = '#FF0000';
+                        this.ctx.fillRect(x + w*0.2, y + h*0.1, w*0.15, h*0.1);
+                        this.ctx.fillRect(x + w*0.65, y + h*0.1, w*0.15, h*0.1);
+                        break;
+
+                    case 'medium':
+                        // Medium demon bomber
+                        this.ctx.fillStyle = enemy.color;
+
+                        // Main body (more robust)
+                        this.ctx.fillRect(x + w*0.2, y, w*0.6, h);
+
+                        // Wings (swept back)
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x, y + h*0.3);
+                        this.ctx.lineTo(x + w*0.2, y + h*0.2);
+                        this.ctx.lineTo(x + w*0.8, y + h*0.2);
+                        this.ctx.lineTo(x + w, y + h*0.3);
+                        this.ctx.lineTo(x + w*0.8, y + h*0.6);
+                        this.ctx.lineTo(x + w*0.2, y + h*0.6);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+
+                        // Engine glow
+                        this.ctx.fillStyle = '#FF6600';
+                        this.ctx.fillRect(x + w*0.3, y + h*0.8, w*0.4, h*0.2);
+
+                        // Demon features
+                        this.ctx.fillStyle = '#FF0000';
+                        this.ctx.fillRect(x + w*0.1, y + h*0.05, w*0.2, h*0.1);
+                        this.ctx.fillRect(x + w*0.7, y + h*0.05, w*0.2, h*0.1);
+                        break;
+
+                    case 'boss':
+                        // Large demon boss
+                        this.ctx.fillStyle = enemy.color;
+
+                        // Central body
+                        this.ctx.fillRect(x + w*0.25, y + h*0.1, w*0.5, h*0.8);
+
+                        // Large wings
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x, y + h*0.4);
+                        this.ctx.lineTo(x + w*0.25, y + h*0.2);
+                        this.ctx.lineTo(x + w*0.75, y + h*0.2);
+                        this.ctx.lineTo(x + w, y + h*0.4);
+                        this.ctx.lineTo(x + w*0.9, y + h*0.8);
+                        this.ctx.lineTo(x + w*0.1, y + h*0.8);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+
+                        // Boss head/cockpit
+                        this.ctx.fillStyle = this.darkenColor(enemy.color);
+                        this.ctx.fillRect(x + w*0.35, y, w*0.3, h*0.3);
+
+                        // Demon horns
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x + w*0.35, y);
+                        this.ctx.lineTo(x + w*0.2, y - h*0.2);
+                        this.ctx.lineTo(x + w*0.4, y + h*0.1);
+                        this.ctx.fill();
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(x + w*0.65, y);
+                        this.ctx.lineTo(x + w*0.8, y - h*0.2);
+                        this.ctx.lineTo(x + w*0.6, y + h*0.1);
+                        this.ctx.fill();
+
+                        // Multiple engine glows
+                        this.ctx.fillStyle = '#FF3300';
+                        this.ctx.fillRect(x + w*0.15, y + h*0.7, w*0.2, h*0.15);
+                        this.ctx.fillRect(x + w*0.65, y + h*0.7, w*0.2, h*0.15);
+
+                        // Boss eyes
+                        this.ctx.fillStyle = '#FFFF00';
+                        this.ctx.fillRect(x + w*0.3, y + h*0.05, w*0.1, h*0.1);
+                        this.ctx.fillRect(x + w*0.6, y + h*0.05, w*0.1, h*0.1);
+                        break;
+                }
+
+                // Health bar for all enemies with visible health
+                if (enemy.maxHealth > 1) {
                     const barWidth = enemy.width;
-                    const barHeight = 4;
+                    const barHeight = 3;
                     const healthRatio = enemy.health / enemy.maxHealth;
 
-                    this.ctx.fillStyle = '#FF0000';
-                    this.ctx.fillRect(enemy.x, enemy.y - 10, barWidth, barHeight);
+                    // Background
+                    this.ctx.fillStyle = '#330000';
+                    this.ctx.fillRect(enemy.x, enemy.y - 8, barWidth, barHeight);
 
-                    this.ctx.fillStyle = '#00FF00';
-                    this.ctx.fillRect(enemy.x, enemy.y - 10, barWidth * healthRatio, barHeight);
+                    // Health bar
+                    this.ctx.fillStyle = healthRatio > 0.6 ? '#00FF00' :
+                                        healthRatio > 0.3 ? '#FFFF00' : '#FF0000';
+                    this.ctx.fillRect(enemy.x, enemy.y - 8, barWidth * healthRatio, barHeight);
                 }
+
+                // Difficulty indicator glow for high-level enemies
+                if (this.enemyHealthMultiplier > 2) {
+                    this.ctx.shadowColor = enemy.color;
+                    this.ctx.shadowBlur = 5;
+                    this.ctx.strokeStyle = enemy.color;
+                    this.ctx.lineWidth = 1;
+                    this.ctx.strokeRect(enemy.x - 2, enemy.y - 2, enemy.width + 4, enemy.height + 4);
+                    this.ctx.shadowBlur = 0;
+                }
+
+                this.ctx.restore();
+            }
+
+            darkenColor(color) {
+                // Simple color darkening function
+                const hex = color.replace('#', '');
+                const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - 50);
+                const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - 50);
+                const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - 50);
+                return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
             }
 
             gameOver() {
@@ -1141,6 +1378,10 @@
                 this.expToNextLevel = 1000;
                 this.weaponLevel = 1;
                 this.autoAttackInterval = 200;
+                this.gameTime = 0;
+                this.difficultyMultiplier = 1;
+                this.enemyHealthMultiplier = 1;
+                this.enemyDamageMultiplier = 1;
                 this.player.x = this.canvas.width / 2 - 15;
                 this.player.y = this.canvas.height - 80;
                 this.player.speed = 4;
