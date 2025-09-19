@@ -301,6 +301,27 @@
                 });
             }
 
+            shoot() {
+                const now = Date.now();
+                if (now - this.lastShot < this.shootCooldown) return;
+
+                const dx = this.mouse.x - (this.player.x + this.player.width / 2);
+                const dy = this.mouse.y - (this.player.y + this.player.height / 2);
+                const angle = Math.atan2(dy, dx);
+
+                this.bullets.push({
+                    x: this.player.x + this.player.width / 2,
+                    y: this.player.y + this.player.height / 2,
+                    vx: Math.cos(angle) * 8,
+                    vy: Math.sin(angle) * 8,
+                    size: 3,
+                    color: '#FFD700',
+                    damage: 25
+                });
+
+                this.lastShot = now;
+            }
+
             update() {
                 if (!this.gameRunning) return;
 
