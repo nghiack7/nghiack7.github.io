@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ tính thuế Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .nav a {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-left: 10px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .tax-type-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tax-type-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tax-type-btn.active {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tax-type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .period-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .period-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-card.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 15px 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .calculator-card {
+                padding: 25px;
+            }
+
+            .tax-type-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tax-type-btn {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <a href="/">CV</a>
+        <a href="/tax-calculate">Tax Calculator</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Công cụ tính thuế Việt Nam</h1>
+            <p class="subtitle">Tính thuế thu nhập cá nhân và thuế doanh nghiệp chính xác</p>
+        </header>
+
+        <div class="tax-type-selector">
+            <button class="tax-type-btn active" onclick="switchTaxType('personal')">Thuế TNCN</button>
+            <button class="tax-type-btn" onclick="switchTaxType('corporate')">Thuế Doanh nghiệp</button>
+        </div>
+
+        <!-- Personal Tax Calculator -->
+        <div id="personal-tax" class="calculator-card">
+            <div class="period-selector">
+                <button class="period-btn active" onclick="switchPeriod('personal', 'before')">Trước 2026</button>
+                <button class="period-btn" onclick="switchPeriod('personal', 'after')">Từ 2026</button>
+            </div>
+
+            <div id="personal-before-form" class="tax-form">
+                <div class="form-group">
+                    <label for="personal-income">Tổng thu nhập (VNĐ/tháng)</label>
+                    <input type="number" id="personal-income" placeholder="Ví dụ: 20000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="personal-dependents">Số người phụ thuộc</label>
+                    <input type="number" id="personal-dependents" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="personal-region">Khu vực</label>
+                    <select id="personal-region">
+                        <option value="1">Thành phố lớn (Hà Nội, TP.HCM)</option>
+                        <option value="2">Thành phố loại II, loại III</option>
+                        <option value="3">Tỉnh, thành phố loại IV</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="personal-after-form" class="tax-form hidden">
+                <div class="form-group">
+                    <label for="personal-income-after">Tổng thu nhập (VNĐ/tháng)</label>
+                    <input type="number" id="personal-income-after" placeholder="Ví dụ: 25000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="personal-dependents-after">Số người phụ thuộc</label>
+                    <input type="number" id="personal-dependents-after" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="personal-insurance">Bảo hiểm bắt buộc (VNĐ/tháng)</label>
+                    <input type="number" id="personal-insurance" placeholder="BHXH + BHYT + BHTN" oninput="formatCurrency(this)">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculatePersonalTax()">Tính thuế TNCN</button>
+        </div>
+
+        <!-- Corporate Tax Calculator -->
+        <div id="corporate-tax" class="calculator-card hidden">
+            <div class="period-selector">
+                <button class="period-btn active" onclick="switchPeriod('corporate', 'before')">Trước 2026</button>
+                <button class="period-btn" onclick="switchPeriod('corporate', 'after')">Từ 2026</button>
+            </div>
+
+            <div id="corporate-before-form" class="tax-form">
+                <div class="form-group">
+                    <label for="corporate-revenue">Doanh thu (VNĐ/năm)</label>
+                    <input type="number" id="corporate-revenue" placeholder="Ví dụ: 10000000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="corporate-expenses">Chi phí hợp lệ (VNĐ/năm)</label>
+                    <input type="number" id="corporate-expenses" placeholder="Ví dụ: 7000000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="corporate-type">Loại hình doanh nghiệp</label>
+                    <select id="corporate-type">
+                        <option value="general">Thông thường (20%)</option>
+                        <option value="small">Doanh nghiệp nhỏ và vừa (15-17%)</option>
+                        <option value="high-tech">Công nghệ cao (10%)</option>
+                        <option value="special">Ưu đãi đặc biệt (5-17%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="corporate-after-form" class="tax-form hidden">
+                <div class="form-group">
+                    <label for="corporate-revenue-after">Doanh thu (VNĐ/năm)</label>
+                    <input type="number" id="corporate-revenue-after" placeholder="Ví dụ: 15000000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="corporate-expenses-after">Chi phí hợp lệ (VNĐ/năm)</label>
+                    <input type="number" id="corporate-expenses-after" placeholder="Ví dụ: 10000000000" oninput="formatCurrency(this)">
+                </div>
+                <div class="form-group">
+                    <label for="corporate-type-after">Loại hình doanh nghiệp</label>
+                    <select id="corporate-type-after">
+                        <option value="general">Thông thường (22%)</option>
+                        <option value="small">Doanh nghiệp nhỏ và vừa (17-19%)</option>
+                        <option value="high-tech">Công nghệ cao (12%)</option>
+                        <option value="special">Ưu đãi đặc biệt (7-19%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateCorporateTax()">Tính thuế Doanh nghiệp</button>
+        </div>
+
+        <!-- Result Cards -->
+        <div id="personal-result" class="result-card">
+            <h3 style="margin-bottom: 20px; color: #667eea;">Kết quả tính thuế TNCN</h3>
+            <div class="result-item">
+                <span class="result-label">Bảo hiểm xã hội:</span>
+                <span class="result-value" id="personal-insurance-contribution">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Thu nhập chịu thuế:</span>
+                <span class="result-value" id="personal-taxable-income">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Thuế TNCN phải nộp:</span>
+                <span class="result-value" id="personal-tax-amount">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Thu nhập thực nhận:</span>
+                <span class="result-value" id="personal-net-income">0 VNĐ</span>
+            </div>
+        </div>
+
+        <div id="corporate-result" class="result-card">
+            <h3 style="margin-bottom: 20px; color: #667eea;">Kết quả tính thuế Doanh nghiệp</h3>
+            <div class="result-item">
+                <span class="result-label">Tổng doanh thu:</span>
+                <span class="result-value" id="corporate-revenue-display">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Chi phí hợp lệ:</span>
+                <span class="result-value" id="corporate-expenses-display">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Lợi nhuận trước thuế:</span>
+                <span class="result-value" id="corporate-profit">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Thuế suất áp dụng:</span>
+                <span class="result-value" id="corporate-tax-rate">0%</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Thuế Doanh nghiệp phải nộp:</span>
+                <span class="result-value" id="corporate-tax-amount">0 VNĐ</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Lợi nhuận sau thuế:</span>
+                <span class="result-value" id="corporate-net-profit">0 VNĐ</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTaxType = 'personal';
+        let currentPeriod = { personal: 'before', corporate: 'before' };
+
+        function switchTaxType(type) {
+            currentTaxType = type;
+            
+            document.querySelectorAll('.tax-type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('personal-tax').classList.toggle('hidden', type !== 'personal');
+            document.getElementById('corporate-tax').classList.toggle('hidden', type !== 'corporate');
+            
+            document.getElementById('personal-result').classList.remove('show');
+            document.getElementById('corporate-result').classList.remove('show');
+        }
+
+        function switchPeriod(taxType, period) {
+            currentPeriod[taxType] = period;
+            
+            const buttons = event.target.parentElement.querySelectorAll('.period-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (taxType === 'personal') {
+                document.getElementById('personal-before-form').classList.toggle('hidden', period !== 'before');
+                document.getElementById('personal-after-form').classList.toggle('hidden', period !== 'after');
+            } else {
+                document.getElementById('corporate-before-form').classList.toggle('hidden', period !== 'before');
+                document.getElementById('corporate-after-form').classList.toggle('hidden', period !== 'after');
+            }
+        }
+
+        function formatCurrency(input) {
+            const value = input.value.replace(/\D/g, '');
+            if (value) {
+                input.value = parseInt(value).toLocaleString('vi-VN');
+            } else {
+                input.value = '';
+            }
+        }
+
+        function parseCurrency(value) {
+            return parseInt(value.replace(/\D/g, '')) || 0;
+        }
+
+        function calculatePersonalTax() {
+            const period = currentPeriod.personal;
+            let income, dependents, insurance = 0, region = 1;
+            
+            if (period === 'before') {
+                income = parseCurrency(document.getElementById('personal-income').value);
+                dependents = parseInt(document.getElementById('personal-dependents').value) || 0;
+                region = parseInt(document.getElementById('personal-region').value);
+                
+                // Updated allowances for 2024-2025
+                const allowances = [11000000, 9600000, 8900000];
+                const personalAllowance = allowances[region - 1];
+                const dependentAllowance = 4400000;
+                
+                // Calculate insurance contributions (maximum 23.5% of income)
+                const maxInsuranceBase = 29800000; // 20x minimum wage for 2024
+                const insuranceRate = 0.105; // 8% BHXH + 1.5% BHYT + 1% BHTN
+                const insuranceContribution = Math.min(income, maxInsuranceBase) * insuranceRate;
+                
+                const taxableIncome = Math.max(0, income - personalAllowance - (dependents * dependentAllowance) - insuranceContribution);
+                const tax = calculatePersonalTaxBracket(taxableIncome);
+                const netIncome = income - insuranceContribution - tax;
+                
+                displayPersonalResult(taxableIncome, tax, netIncome, insuranceContribution);
+            } else {
+                income = parseCurrency(document.getElementById('personal-income-after').value);
+                dependents = parseInt(document.getElementById('personal-dependents-after').value) || 0;
+                insurance = parseCurrency(document.getElementById('personal-insurance').value);
+                
+                // Projected allowances for 2026+
+                const personalAllowance = 12000000;
+                const dependentAllowance = 4800000;
+                
+                const taxableIncome = Math.max(0, income - insurance - personalAllowance - (dependents * dependentAllowance));
+                const tax = calculatePersonalTaxBracket(taxableIncome);
+                const netIncome = income - insurance - tax;
+                
+                displayPersonalResult(taxableIncome, tax, netIncome, insurance);
+            }
+        }
+
+        function calculatePersonalTaxBracket(taxableIncome) {
+            // 2024+ Vietnamese personal income tax brackets
+            const brackets = [
+                { max: 5000000, rate: 5 },
+                { max: 10000000, rate: 10 },
+                { max: 18000000, rate: 15 },
+                { max: 32000000, rate: 20 },
+                { max: 52000000, rate: 25 },
+                { max: 80000000, rate: 30 },
+                { max: Infinity, rate: 35 }
+            ];
+            
+            let tax = 0;
+            let previousMax = 0;
+            
+            for (const bracket of brackets) {
+                if (taxableIncome > previousMax) {
+                    const taxableInThisBracket = Math.min(taxableIncome - previousMax, bracket.max - previousMax);
+                    tax += taxableInThisBracket * bracket.rate / 100;
+                    previousMax = bracket.max;
+                } else {
+                    break;
+                }
+            }
+            
+            return Math.round(tax);
+        }
+
+        function displayPersonalResult(taxableIncome, tax, netIncome, insurance = 0) {
+            document.getElementById('personal-taxable-income').textContent = formatNumber(taxableIncome) + ' VNĐ';
+            document.getElementById('personal-tax-amount').textContent = formatNumber(tax) + ' VNĐ';
+            document.getElementById('personal-net-income').textContent = formatNumber(netIncome) + ' VNĐ';
+            document.getElementById('personal-insurance-contribution').textContent = formatNumber(insurance) + ' VNĐ';
+            document.getElementById('personal-result').classList.add('show');
+        }
+
+        function calculateCorporateTax() {
+            const period = currentPeriod.corporate;
+            let revenue, expenses, type;
+            
+            if (period === 'before') {
+                revenue = parseCurrency(document.getElementById('corporate-revenue').value);
+                expenses = parseCurrency(document.getElementById('corporate-expenses').value);
+                type = document.getElementById('corporate-type').value;
+                
+                // 2024-2025 Vietnamese corporate tax rates
+                const taxRates = {
+                    general: 20,
+                    small: 16,
+                    'high-tech': 10,
+                    special: 15
+                };
+                
+                // Additional incentives
+                const incentives = {
+                    small: { min: 15, max: 17 },
+                    special: { min: 10, max: 17 }
+                };
+                
+                const profit = Math.max(0, revenue - expenses);
+                let taxRate = taxRates[type];
+                
+                // Apply progressive rates for SMEs and special cases
+                if (type === 'small' && revenue > 20000000000) {
+                    taxRate = incentives.small.min;
+                } else if (type === 'special' && revenue < 50000000000) {
+                    taxRate = incentives.special.min;
+                }
+                
+                const tax = profit * taxRate / 100;
+                const netProfit = profit - tax;
+                
+                displayCorporateResult(revenue, expenses, profit, taxRate, tax, netProfit);
+            } else {
+                revenue = parseCurrency(document.getElementById('corporate-revenue-after').value);
+                expenses = parseCurrency(document.getElementById('corporate-expenses-after').value);
+                type = document.getElementById('corporate-type-after').value;
+                
+                // Projected 2026+ Vietnamese corporate tax rates
+                const taxRates = {
+                    general: 22,
+                    small: 18,
+                    'high-tech': 12,
+                    special: 17
+                };
+                
+                // Additional incentives for 2026+
+                const incentives = {
+                    small: { min: 17, max: 19 },
+                    special: { min: 12, max: 19 }
+                };
+                
+                const profit = Math.max(0, revenue - expenses);
+                let taxRate = taxRates[type];
+                
+                // Apply progressive rates for SMEs and special cases (2026+)
+                if (type === 'small' && revenue > 30000000000) {
+                    taxRate = incentives.small.min;
+                } else if (type === 'special' && revenue < 75000000000) {
+                    taxRate = incentives.special.min;
+                }
+                
+                const tax = profit * taxRate / 100;
+                const netProfit = profit - tax;
+                
+                displayCorporateResult(revenue, expenses, profit, taxRate, tax, netProfit);
+            }
+        }
+
+        function displayCorporateResult(revenue, expenses, profit, taxRate, tax, netProfit) {
+            document.getElementById('corporate-revenue-display').textContent = formatNumber(revenue) + ' VNĐ';
+            document.getElementById('corporate-expenses-display').textContent = formatNumber(expenses) + ' VNĐ';
+            document.getElementById('corporate-profit').textContent = formatNumber(profit) + ' VNĐ';
+            document.getElementById('corporate-tax-rate').textContent = taxRate + '%';
+            document.getElementById('corporate-tax-amount').textContent = formatNumber(tax) + ' VNĐ';
+            document.getElementById('corporate-net-profit').textContent = formatNumber(netProfit) + ' VNĐ';
+            document.getElementById('corporate-result').classList.add('show');
+        }
+
+        function formatNumber(num) {
+            return Math.round(num).toLocaleString('vi-VN');
+        }
+    </script>
+</body>
+
+</html>
