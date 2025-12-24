@@ -24,6 +24,7 @@ export default defineConfig({
       input: {
         main: "./index.html",
         game: "./game.html",
+        "tax-calculate": "./tax-calculate.html",
       },
     },
   },

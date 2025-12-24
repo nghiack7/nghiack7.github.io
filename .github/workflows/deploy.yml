@@ -43,6 +43,10 @@ jobs:
       run: |
         mkdir -p dist/games/2048
         cp -r games/2048/* dist/games/2048/
+        
+    - name: Copy tax calculator to dist
+      run: |
+        cp tax-calculate.html dist/
 
     - name: Install additional dev dependencies
       run: |
