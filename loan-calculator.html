@@ -321,6 +321,87 @@
             0% { transform: translateX(-100%) rotate(45deg); }
             100% { transform: translateX(200%) rotate(45deg); }
         }
+        
+        /* Pagination Styles */
+        .pagination-controls {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--color-card);
+            border-radius: 10px;
+            border: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .pagination-info {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+        
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            background: var(--color-background);
+            color: var(--color-text);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .page-number {
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            background: var(--color-background);
+            color: var(--color-text);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            min-width: 36px;
+            text-align: center;
+        }
+        
+        .page-number:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        
+        .page-number.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -493,6 +574,22 @@
                     </tbody>
                 </table>
             </div>
+            
+            <!-- Pagination Controls -->
+            <div class="pagination-controls" id="paginationControls" style="display: none;">
+                <div class="pagination-info">
+                    <span id="paginationInfo">Showing 1-12 of 0 entries</span>
+                </div>
+                <div class="pagination-buttons">
+                    <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -604,6 +701,11 @@
 
         let currentLang = 'vi';
         let loanChart = null;
+        
+        // Pagination variables
+        let allAmortizationData = [];
+        let currentPage = 1;
+        const rowsPerPage = 12;
 
         // Language switcher
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -734,16 +836,14 @@
                     totalPayment += monthlyPayment;
                     totalInterest += interestPayment;
                     
-                    if (i <= 12 || i === promoMonths || i === promoMonths + 1 || i === loanTerm) {
-                        amortizationData.push({
-                            period: i,
-                            payment: monthlyPayment,
-                            principal: principalPayment,
-                            interest: interestPayment,
-                            balance: Math.max(0, balance),
-                            rate: currentMonthlyRate * 12 * 100
-                        });
-                    }
+                    amortizationData.push({
+                        period: i,
+                        payment: monthlyPayment,
+                        principal: principalPayment,
+                        interest: interestPayment,
+                        balance: Math.max(0, balance),
+                        rate: currentMonthlyRate * 12 * 100
+                    });
                 }
                 
             } else {
@@ -761,9 +861,9 @@
                 totalPayment = monthlyPayment * loanTerm;
                 totalInterest = totalPayment - loanAmount;
                 
-                // Generate standard amortization
+                // Generate complete amortization
                 let balance = loanAmount;
-                for (let i = 1; i <= Math.min(loanTerm, 12); i++) {
+                for (let i = 1; i <= loanTerm; i++) {
                     const interestPayment = balance * monthlyRate;
                     const principalPayment = monthlyPayment - interestPayment;
                     balance -= principalPayment;
@@ -806,6 +906,10 @@
         }
 
         function generateAmortizationSchedule(amortizationData) {
+            // Store all data for pagination
+            allAmortizationData = amortizationData;
+            currentPage = 1; // Reset to first page
+            
             const tbody = document.getElementById('amortizationBody');
             tbody.innerHTML = '';
             
@@ -823,7 +927,29 @@
                 }
             }
             
-            amortizationData.forEach((data, index) => {
+            // Show pagination controls if more than 12 rows
+            const paginationControls = document.getElementById('paginationControls');
+            if (amortizationData.length > rowsPerPage) {
+                paginationControls.style.display = 'flex';
+            } else {
+                paginationControls.style.display = 'none';
+            }
+            
+            // Display current page
+            displayCurrentPage();
+        }
+        
+        function displayCurrentPage() {
+            const tbody = document.getElementById('amortizationBody');
+            tbody.innerHTML = '';
+            
+            const hasRateChanges = allAmortizationData.some(d => d.rate !== allAmortizationData[0]?.rate);
+            
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, allAmortizationData.length);
+            const pageData = allAmortizationData.slice(startIndex, endIndex);
+            
+            pageData.forEach((data, index) => {
                 const row = tbody.insertRow();
                 row.insertCell(0).textContent = data.period;
                 row.insertCell(1).textContent = formatCurrency(data.payment);
@@ -836,12 +962,68 @@
                     rateCell.textContent = data.rate.toFixed(2) + '%';
                     
                     // Highlight rate change periods
-                    if (index > 0 && data.rate !== amortizationData[index - 1].rate) {
+                    const actualIndex = startIndex + index;
+                    if (actualIndex > 0 && data.rate !== allAmortizationData[actualIndex - 1].rate) {
                         row.style.backgroundColor = currentLang === 'vi' ? '#fff3e0' : '#e8f5e8';
                         row.style.fontWeight = 'bold';
                     }
                 }
             });
+            
+            // Update pagination info and controls
+            updatePaginationControls();
+        }
+        
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(allAmortizationData.length / rowsPerPage);
+            const startIndex = (currentPage - 1) * rowsPerPage + 1;
+            const endIndex = Math.min(currentPage * rowsPerPage, allAmortizationData.length);
+            
+            // Update info text
+            document.getElementById('paginationInfo').textContent = 
+                `Showing ${startIndex}-${endIndex} of ${allAmortizationData.length} entries`;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+            
+            // Update page numbers
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            // Show max 5 page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'page-number';
+                if (i === currentPage) {
+                    pageBtn.classList.add('active');
+                }
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+        
+        function changePage(direction) {
+            const totalPages = Math.ceil(allAmortizationData.length / rowsPerPage);
+            const newPage = currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                displayCurrentPage();
+            }
+        }
+        
+        function goToPage(page) {
+            currentPage = page;
+            displayCurrentPage();
         }
 
         function updateChart(principal, interest, term) {
