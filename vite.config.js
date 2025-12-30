@@ -23,8 +23,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "./index.html",
+        portfolio: "./portfolio.html",
         game: "./game.html",
         "tax-calculate": "./tax-calculate.html",
+        "loan-calculator": "./loan-calculator.html",
       },
     },
   },
