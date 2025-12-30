@@ -2542,6 +2542,45 @@ Nghia Nguyen
             border-top: 1px solid var(--border-color);
         }
 
+        .footer-nav {
+            margin-bottom: 2rem;
+        }
+
+        .footer-nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .footer-nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-nav-links a:hover::after {
+            width: 100%;
+        }
+
         .footer-content {
             display: flex;
             justify-content: space-between;
@@ -2674,6 +2713,11 @@ Nghia Nguyen
                 min-height: 44px;
                 min-width: 44px;
                 padding: 12px 20px;
+            }
+
+            .footer-nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
 
             .hero {
@@ -2818,6 +2862,12 @@ Nghia Nguyen
 
             .section {
                 padding: 2rem 0;
+            }
+
+            .footer-nav-links {
+                flex-direction: column;
+                gap: 0.75rem;
+                font-size: 0.85rem;
             }
 
             .section-title {
@@ -3512,6 +3562,16 @@ Nghia Nguyen
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
+            <nav class="footer-nav">
+                <div class="footer-nav-links">
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                    <a href="/tax-calculate.html" target="_blank">Tax Calculator</a>
+                </div>
+            </nav>
             <div class="footer-content">
                 <p>&copy; 2024 Nghia Nguyen. All rights reserved.</p>
                 <div class="social-links">
