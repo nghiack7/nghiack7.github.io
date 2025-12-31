@@ -593,8 +593,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="loan-amount">Loan Amount (VND)</label>
-                    <input type="text" id="loanAmount" value="500.000.000" class="formatted-number" placeholder="Nhập số tiền vay">
+                    <label data-i18n="loan-amount">Số Tiền Vay (VNĐ)</label>
+                    <input type="text" id="loanAmount" value="1.700.000.000" class="formatted-number" placeholder="Nhập số tiền vay, ví dụ: 1.700.000.000">
                     <i class="fas fa-money-bill-wave input-icon"></i>
                 </div>
 
@@ -612,14 +612,28 @@
                 </div>
 
                 <div class="floating-rate-info hidden" id="floatingRateInfo">
-                    <h4 data-i18n="floating-info">📊 Floating Rate Information</h4>
+                    <h4 data-i18n="floating-info">📊 Thông Tin Lãi Suất Thả Nổi</h4>
+                    <p style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 15px;">
+                        <i class="fas fa-info-circle"></i> Lãi suất thả nổi = Lãi suất cơ bản + Biên độ. Ví dụ: 6,5% + 3,5% = 10%
+                    </p>
                     <div class="form-group">
-                        <label data-i18n="base-rate">Base Rate (%)</label>
-                        <input type="number" id="baseRate" value="8.5" min="0" max="30" step="0.1">
+                        <label data-i18n="base-rate">Lãi Suất Cơ Bản (%/năm)</label>
+                        <input type="number" id="baseRate" value="6.5" min="0" max="30" step="0.1" placeholder="Ví dụ: 6.5">
+                        <small style="color: var(--color-text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                            Lãi suất cơ bản của thị trường (có thể thay đổi)
+                        </small>
                     </div>
                     <div class="form-group">
-                        <label data-i18n="margin">Margin (%)</label>
-                        <input type="number" id="margin" value="2.5" min="0" max="10" step="0.1">
+                        <label data-i18n="margin">Biên Độ (%/năm)</label>
+                        <input type="number" id="margin" value="3.5" min="0" max="10" step="0.1" placeholder="Ví dụ: 3.5">
+                        <small style="color: var(--color-text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                            Biên độ ngân hàng cộng thêm (cố định)
+                        </small>
+                    </div>
+                    <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #667eea;">
+                        <strong style="color: #667eea;">Lãi suất thả nổi sau khuyến mãi:</strong>
+                        <span id="calculatedFloatingRate" style="font-size: 18px; font-weight: bold; color: var(--color-text);">10,0%</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">/năm</span>
                     </div>
                     
                     <div class="promotion-period-section">
@@ -635,8 +649,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label data-i18n="promo-rate">Promotional Rate (%/year)</label>
-                            <input type="number" id="promoRate" value="7.5" min="0" max="30" step="0.1">
+                            <label data-i18n="promo-rate">Lãi Suất Khuyến Mãi (%/năm)</label>
+                            <input type="number" id="promoRate" value="6.5" min="0" max="30" step="0.1" placeholder="Ví dụ: 6.5">
+                            <small style="color: var(--color-text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                                Lãi suất ưu đãi trong kỳ khuyến mãi
+                            </small>
                         </div>
                     </div>
                     
@@ -931,9 +948,18 @@
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.dataset.i18n;
                 if (translations[currentLang][key]) {
-                    if (element.tagName === 'INPUT' || element.tagName === 'OPTION') {
-                        element.value = translations[currentLang][key];
+                    if (element.tagName === 'INPUT' && element.type !== 'checkbox') {
+                        // For input fields (except checkbox), update placeholder or value
+                        if (element.placeholder) {
+                            element.placeholder = translations[currentLang][key];
+                        } else if (element.type === 'text' && !element.classList.contains('formatted-number')) {
+                            element.value = translations[currentLang][key];
+                        }
+                    } else if (element.tagName === 'OPTION') {
+                        // For option elements, update textContent
+                        element.textContent = translations[currentLang][key];
                     } else {
+                        // For other elements (labels, headings, etc.), update textContent
                         element.textContent = translations[currentLang][key];
                     }
                 }
@@ -979,10 +1005,30 @@
         });
 
         // Promo duration change
-        document.getElementById('promoDuration').addEventListener('change', updateRateTimeline);
+        document.getElementById('promoDuration').addEventListener('change', function() {
+            updateRateTimeline();
+            updateFloatingRateDisplay();
+        });
         
         // Loan term change
-        document.getElementById('loanTerm').addEventListener('input', updateRateTimeline);
+        document.getElementById('loanTerm').addEventListener('input', function() {
+            updateRateTimeline();
+        });
+        
+        // Base rate and margin change - update floating rate display
+        document.getElementById('baseRate').addEventListener('input', updateFloatingRateDisplay);
+        document.getElementById('margin').addEventListener('input', updateFloatingRateDisplay);
+        
+        function updateFloatingRateDisplay() {
+            const baseRate = parseFloat(document.getElementById('baseRate').value) || 0;
+            const margin = parseFloat(document.getElementById('margin').value) || 0;
+            const floatingRate = baseRate + margin;
+            
+            const displayElement = document.getElementById('calculatedFloatingRate');
+            if (displayElement) {
+                displayElement.textContent = floatingRate.toFixed(1) + '%';
+            }
+        }
         
         function updateRateTimeline() {
             const loanTerm = parseInt(document.getElementById('loanTerm').value);
@@ -993,6 +1039,11 @@
             document.getElementById('promoMonths').textContent = promoMonths;
             document.getElementById('floatingMonths').textContent = floatingMonths;
         }
+        
+        // Initialize floating rate display on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFloatingRateDisplay();
+        });
 
         // Update interest rate based on loan type
         function updateInterestRate() {

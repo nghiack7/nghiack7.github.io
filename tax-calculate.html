@@ -429,6 +429,15 @@
             </div>
 
             <div id="personal-after-form" class="tax-form hidden">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 1.1rem;">📋 Thay đổi từ 2026 (Luật Thuế Thu nhập Cá nhân mới)</h4>
+                    <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem;">
+                        <li>Giảm trừ bản thân: <strong>15.5 triệu/tháng</strong> (tăng từ 11 triệu)</li>
+                        <li>Giảm trừ người phụ thuộc: <strong>6.2 triệu/tháng</strong> (tăng từ 4.4 triệu)</li>
+                        <li>Biểu thuế mới: <strong>5 bậc</strong> (5%, 10%, 20%, 30%, 35%)</li>
+                        <li>Miễn thuế: Làm thêm giờ, bồi thường nghỉ phép</li>
+                    </ul>
+                </div>
                 <div class="form-group">
                     <label for="personal-income-after">Tổng thu nhập (VNĐ/tháng)</label>
                     <input type="text" id="personal-income-after" placeholder="Ví dụ: 25 000 000" oninput="formatCurrency(this)">
@@ -437,6 +446,7 @@
                 <div class="form-group">
                     <label for="personal-dependents-after">Số người phụ thuộc</label>
                     <input type="number" id="personal-dependents-after" min="0" value="0">
+                    <small style="color: #666; font-size: 0.9rem; margin-top: 5px; display: block;">Mỗi người phụ thuộc được giảm trừ 6.2 triệu/tháng</small>
                 </div>
                 <div class="form-group">
                     <label>Bảo hiểm bắt buộc (VNĐ/tháng)</label>
@@ -455,8 +465,11 @@
                         </div>
                     </div>
                     <small style="color: #666; font-size: 0.9rem; margin-top: 5px; display: block;">
-                        Tự động tính theo Luật 109/2025/QH15 (mức lương cơ sở 2 400 000 VNĐ)
+                        Tự động tính theo Luật 109/2025/QH15 (mức lương cơ sở 2.400.000 VNĐ, mức tối đa 48.000.000 VNĐ/tháng)
                     </small>
+                    <div style="background: #fff3cd; border-left: 3px solid #ffc107; padding: 10px; margin-top: 10px; border-radius: 4px; font-size: 0.85rem;">
+                        <strong>Lưu ý từ 2026:</strong> Thu nhập từ làm thêm giờ và tiền bồi thường ngày nghỉ phép chưa sử dụng được <strong>miễn thuế</strong>.
+                    </div>
                 </div>
             </div>
 
@@ -694,13 +707,14 @@
                 dependents = parseInt(document.getElementById('personal-dependents').value) || 0;
                 region = parseInt(document.getElementById('personal-region').value);
                 
-                // Updated allowances for 2024-2025
+                // Giảm trừ gia cảnh 2024-2025 (theo Luật hiện hành)
                 const allowances = [11000000, 9600000, 8900000];
                 const personalAllowance = allowances[region - 1];
                 const dependentAllowance = 4400000;
                 
-                // Calculate insurance contributions (maximum 23.5% of income)
-                const maxInsuranceBase = 29800000; // 20x minimum wage for 2024
+                // Tính bảo hiểm (mức tối đa 20 lần lương cơ sở)
+                const baseSalary = 1800000; // Lương cơ sở 2024-2025
+                const maxInsuranceBase = baseSalary * 20; // 20 lần lương cơ sở
                 const insuranceRate = 0.105; // 8% BHXH + 1.5% BHYT + 1% BHTN
                 const insuranceContribution = Math.min(income, maxInsuranceBase) * insuranceRate;
                 
@@ -713,16 +727,16 @@
                 income = parseCurrency(document.getElementById('personal-income-after'));
                 dependents = parseInt(document.getElementById('personal-dependents-after').value) || 0;
                 
-                // Calculate insurance automatically based on Luật 109/2025/QH15
+                // Tính bảo hiểm tự động theo Luật 109/2025/QH15
                 const insuranceData = calculateInsurance2026(income);
                 insurance = insuranceData.total;
                 
                 // Update insurance display
                 updateInsuranceDisplay(insuranceData);
                 
-                // 2026+ allowances (Luật 109/2025/QH15)
-                const personalAllowance = 13000000;  // Tăng từ 11M lên 13M
-                const dependentAllowance = 5200000;  // Tăng từ 4.4M lên 5.2M
+                // Giảm trừ gia cảnh từ 2026 (Luật Thuế Thu nhập Cá nhân mới)
+                const personalAllowance = 15500000;  // Tăng từ 11M lên 15.5M (186M/năm)
+                const dependentAllowance = 6200000;  // Tăng từ 4.4M lên 6.2M
                 
                 const taxableIncome = Math.max(0, income - insurance - personalAllowance - (dependents * dependentAllowance));
                 const tax = calculatePersonalTaxBracket(taxableIncome, 'after');
@@ -733,17 +747,21 @@
         }
 
         function calculatePersonalTaxBracket(taxableIncome, period = 'before') {
-            // Vietnamese personal income tax brackets by period
+            // Biểu thuế lũy tiến từng phần theo quy định mới nhất
             const brackets = period === 'after' ? [
-                // 2026+ brackets (Luật 109/2025/QH15 - Fewer brackets)
-                { max: 6000000, rate: 5 },
-                { max: 24000000, rate: 10 },
-                { max: 64000000, rate: 15 },
-                { max: 96000000, rate: 18 },
-                { max: 240000000, rate: 20 },
-                { max: Infinity, rate: 25 }
+                // Từ 2026: Biểu thuế mới 5 bậc (Luật Thuế Thu nhập Cá nhân mới)
+                // Đến 10 triệu/tháng: 5%
+                { max: 10000000, rate: 5 },
+                // Trên 10 đến 30 triệu/tháng: 10%
+                { max: 30000000, rate: 10 },
+                // Trên 30 đến 60 triệu/tháng: 20%
+                { max: 60000000, rate: 20 },
+                // Trên 60 đến 100 triệu/tháng: 30%
+                { max: 100000000, rate: 30 },
+                // Trên 100 triệu/tháng: 35%
+                { max: Infinity, rate: 35 }
             ] : [
-                // 2024-2025 brackets (7 brackets)
+                // 2024-2025: Biểu thuế 7 bậc (Luật hiện hành)
                 { max: 5000000, rate: 5 },
                 { max: 10000000, rate: 10 },
                 { max: 18000000, rate: 15 },
@@ -861,21 +879,25 @@
         }
 
         function calculateInsurance2026(income) {
-            // Luật 109/2025/QH15 parameters
-            const baseSalary = 2400000; // Mức lương cơ sở năm 2026
-            const maxInsuranceBase = baseSalary * 20; // 20 lần lương cơ sở
+            // Luật 109/2025/QH15 - Bảo hiểm xã hội, y tế, thất nghiệp
+            // Mức lương cơ sở từ 2026: 2.400.000 VNĐ/tháng
+            const baseSalary = 2400000;
+            const maxInsuranceBase = baseSalary * 20; // 20 lần lương cơ sở = 48.000.000 VNĐ/tháng
             const cappedIncome = Math.min(income, maxInsuranceBase);
             
-            // Insurance rates for employee (tự nguyện sau 2026)
-            const bxhRate = 0.08;    // 8%
-            const bhytRate = 0.015;  // 1.5%
-            const bhtnRate = 0.01;   // 1%
+            // Tỷ lệ đóng bảo hiểm (người lao động)
+            const bxhRate = 0.08;    // BHXH: 8%
+            const bhytRate = 0.015;  // BHYT: 1.5%
+            const bhtnRate = 0.01;   // BHTN: 1%
+            const totalRate = bxhRate + bhytRate + bhtnRate; // Tổng: 10.5%
             
             return {
                 bxh: Math.round(cappedIncome * bxhRate),
                 bhyt: Math.round(cappedIncome * bhytRate),
                 bhtn: Math.round(cappedIncome * bhtnRate),
-                total: Math.round(cappedIncome * (bxhRate + bhytRate + bhtnRate))
+                total: Math.round(cappedIncome * totalRate),
+                cappedIncome: cappedIncome,
+                maxBase: maxInsuranceBase
             };
         }
         
