@@ -39,18 +39,28 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: var(--text-primary);
             transition: all 0.3s ease;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -69,17 +79,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .logo h1 {
             font-size: 1.5rem;
             font-weight: 700;
+            white-space: nowrap;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .nav-links a {
@@ -121,6 +138,8 @@
 
         .page-content {
             padding: 120px 20px 40px;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         header {
@@ -179,6 +198,10 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             animation: slideUp 0.5s ease;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
         }
 
         @keyframes slideUp {
@@ -217,6 +240,16 @@
 
         .form-group {
             margin-bottom: 25px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .form-group small {
+            display: block;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         label {
@@ -228,6 +261,7 @@
 
         input, select {
             width: 100%;
+            max-width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
@@ -235,6 +269,9 @@
             transition: border-color 0.3s ease;
             font-family: 'Courier New', monospace;
             font-weight: 500;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         input:focus, select:focus {
@@ -343,23 +380,108 @@
         @media (max-width: 768px) {
             .container {
                 padding: 80px 15px 30px;
+                max-width: 100%;
+            }
+            
+            .navbar {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .nav-links a {
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.2rem;
             }
 
             h1 {
                 font-size: 2rem;
+                word-wrap: break-word;
             }
 
             .calculator-card {
-                padding: 25px;
+                padding: 20px;
+                border-radius: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .page-content {
+                padding: 100px 15px 30px;
             }
 
             .tax-type-selector {
                 flex-direction: column;
                 align-items: center;
+                gap: 15px;
             }
 
             .tax-type-btn {
-                width: 250px;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .period-selector {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .period-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            input, select {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .result-card {
+                padding: 20px;
+            }
+            
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .result-value {
+                word-break: break-word;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 70px 10px 20px;
+            }
+            
+            .calculator-card {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
             }
         }
     </style>
@@ -429,12 +551,12 @@
             </div>
 
             <div id="personal-after-form" class="tax-form hidden">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                    <h4 style="margin: 0 0 10px 0; font-size: 1.1rem;">📋 Thay đổi từ 2026 (Luật Thuế Thu nhập Cá nhân mới)</h4>
-                    <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem;">
-                        <li>Giảm trừ bản thân: <strong>15.5 triệu/tháng</strong> (tăng từ 11 triệu)</li>
-                        <li>Giảm trừ người phụ thuộc: <strong>6.2 triệu/tháng</strong> (tăng từ 4.4 triệu)</li>
-                        <li>Biểu thuế mới: <strong>5 bậc</strong> (5%, 10%, 20%, 30%, 35%)</li>
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; word-wrap: break-word;">📋 Thay đổi từ 2026 (Luật Thuế Thu nhập Cá nhân mới)</h4>
+                    <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem; word-wrap: break-word;">
+                        <li style="margin-bottom: 5px;">Giảm trừ bản thân: <strong>15.5 triệu/tháng</strong> (tăng từ 11 triệu)</li>
+                        <li style="margin-bottom: 5px;">Giảm trừ người phụ thuộc: <strong>6.2 triệu/tháng</strong> (tăng từ 4.4 triệu)</li>
+                        <li style="margin-bottom: 5px;">Biểu thuế mới: <strong>5 bậc</strong> (5%, 10%, 20%, 30%, 35%)</li>
                         <li>Miễn thuế: Làm thêm giờ, bồi thường nghỉ phép</li>
                     </ul>
                 </div>
@@ -450,24 +572,24 @@
                 </div>
                 <div class="form-group">
                     <label>Bảo hiểm bắt buộc (VNĐ/tháng)</label>
-                    <div id="insurance-breakdown" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
-                        <div style="margin-bottom: 8px;">
+                    <div id="insurance-breakdown" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+                        <div style="margin-bottom: 8px; word-wrap: break-word;">
                             <strong>BHXH (8%):</strong> <span id="insurance-bhxh-display">0 VNĐ</span>
                         </div>
-                        <div style="margin-bottom: 8px;">
+                        <div style="margin-bottom: 8px; word-wrap: break-word;">
                             <strong>BHYT (1.5%):</strong> <span id="insurance-bhyt-display">0 VNĐ</span>
                         </div>
-                        <div style="margin-bottom: 8px;">
+                        <div style="margin-bottom: 8px; word-wrap: break-word;">
                             <strong>BHTN (1%):</strong> <span id="insurance-bhtn-display">0 VNĐ</span>
                         </div>
-                        <div style="border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px;">
+                        <div style="border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; word-wrap: break-word;">
                             <strong>Tổng cộng (10.5%):</strong> <span id="insurance-total-display">0 VNĐ</span>
                         </div>
                     </div>
                     <small style="color: #666; font-size: 0.9rem; margin-top: 5px; display: block;">
                         Tự động tính theo Luật 109/2025/QH15 (mức lương cơ sở 2.400.000 VNĐ, mức tối đa 48.000.000 VNĐ/tháng)
                     </small>
-                    <div style="background: #fff3cd; border-left: 3px solid #ffc107; padding: 10px; margin-top: 10px; border-radius: 4px; font-size: 0.85rem;">
+                    <div style="background: #fff3cd; border-left: 3px solid #ffc107; padding: 10px; margin-top: 10px; border-radius: 4px; font-size: 0.85rem; width: 100%; max-width: 100%; box-sizing: border-box; word-wrap: break-word;">
                         <strong>Lưu ý từ 2026:</strong> Thu nhập từ làm thêm giờ và tiền bồi thường ngày nghỉ phép chưa sử dụng được <strong>miễn thuế</strong>.
                     </div>
                 </div>
